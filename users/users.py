@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template
+from datetime import datetime
+from app import users
 
 users_bp = Blueprint('users_bp', __name__)
 
@@ -12,7 +14,18 @@ def new_user():
 
 @users_bp.route('/create', methods=['POST'])
 def create_user():
-    return 'user created!'
+    user = {
+        'email':      'email@gmail.com',
+        'first_name': 'John',
+        'last_name':  'Doe',
+        'password':   'password',
+        'avatar_url': '',
+        'created_on': datetime.now(),
+    }
+
+    user_id = users.insert_one(user).inserted_id
+
+    return render_template('show_user.html', user_id=user_id)
 
 @users_bp.route('/edit', methods=['GET'])
 def edit_user():
