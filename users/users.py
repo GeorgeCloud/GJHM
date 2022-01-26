@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template
 from datetime import datetime
-from app import users
+# from app import users
 
 users_bp = Blueprint('users_bp', __name__)
 
