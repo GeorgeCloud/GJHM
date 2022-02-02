@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 from pymongo import MongoClient
 from users.users import users_bp
+from movies.movies import media_bp
 from os import environ
 
 app = Flask(__name__)
@@ -15,6 +16,7 @@ reviews = db.reviews
 playlists = db.playlists
 
 app.register_blueprint(users_bp, url_prefix='/users')
+app.register_blueprint(media_bp, url_prefix='/media')
 
 @app.route('/', methods=['GET'])
 def index():
