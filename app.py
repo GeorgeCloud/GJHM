@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from pymongo import MongoClient
 from users.users import users_bp
-from movies.movies import media_bp
+from media.media import media_bp
 from os import environ
 
 app = Flask(__name__)
