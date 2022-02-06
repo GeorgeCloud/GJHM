@@ -3,5 +3,41 @@
 {% block title %} Index {% endblock %}
 
 {% block content %}
-  <h1>Home Page</h1>
+
+  <div class="jumbotron text-center hero-background-img">
+    <h1>Home Page</h1>
+  </div>
+
+  <div class= "container card">
+    <nav class="navbar profile-nav">
+        <a class="nav-item active"> POSTS </a>
+        <a class="nav-item"> MEDIA </a>
+        <a class="nav-item"> LISTS </a>
+    </nav>
+  
+
+    <!-- TODO: link to routes -->
+</div>
+
+<div class="container card">
+  <div class="row p-3">
+
+    <!-- user profile pic -->
+    <div class="col-3">
+      <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="" alt="user profile pic"> 
+    </div>
+
+    <div class="col-6">
+      <h2> USER ACTION MOVIE</h2>
+      <!-- action: watched, review, whatever -->
+      <!-- movie: movie selected -->
+    </div>
+
+    <div class="col-3">
+      <!-- movie poster url  -->
+      <img style="height:200px;" src="" alt="movie poster">
+    </div>
+
+  </div>
+</div>
 {% endblock %}

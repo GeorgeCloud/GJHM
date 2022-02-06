@@ -5,10 +5,27 @@
 {% block content %}
   <h1>USERS</h1>
   {% for user in users %}
-    <ul>
-      <li>
-        <a href="{{url_for('users_bp.view_user', username=user.username)}}">{{ user.username }}</a>
-      </li>
-    </ul>
+  <div class="container card">
+
+    <div class="row p-3">
+
+      <!-- profile picture -->
+        <div class="col-3">
+            <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url }}" alt="user profile picture"> 
+        </div>
+
+        <!-- user name  -->
+        <div class="col-6">
+          <a href="{{url_for('users_bp.view_user', username=user.username)}}">{{ user.username }}</a>
+        </div>
+
+        <!-- follow button -->
+        <div class="col-3">
+            <button>Follow</button>
+        </div>
+
+      </div>
+  </div>
   {% endfor %}
 {% endblock %}
+
