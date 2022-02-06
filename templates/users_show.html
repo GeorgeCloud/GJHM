@@ -1,3 +1,4 @@
+<!-- USER PROFILE PAGE -->
 {% extends 'partials/base.html' %}
 
 {% block title %} User: username_here {% endblock %}
@@ -5,8 +6,71 @@
 {% block content %}
   <h1>User Profile</h1>
 
-  <p>{{ user.first_name }}</p>
+<!-- user profile card -->
+  <div class="container card">
+
+    <div class="row p-3">
+
+      <!-- profile picturre -->
+        <div class="col-3">
+            <img  style="width: 200px;height:200px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url}}" alt="user profile picture"> 
+        </div>
+
+        <!-- user information  -->
+        <div class="col-9">
+            <h1>{{ user.first_name }} {{ user.last_name }}</h1><br>
+            <p>user bio</p> <br>
+            <p>{{ user.email }}</p> <br>
+            <p>{{ user.created_on }}</p> <br> 
+        </div>
+
+        <!-- follow button -->
+        <div class="row p-3">
+            <button>Follow</button>
+        </div>
+
+        <!-- todo: user followers and following -->
+
+        </div>
+    </div>
+
+     <!-- PROFILE NAV -->
+    <div class= "container card">
+      <nav class="navbar profile-nav">
+          <a class="nav-item active"> POSTS </a>
+          <a class="nav-item"> MEDIA </a>
+          <a class="nav-item"> LISTS </a>
+      </nav>
+      <!-- TODO: link to routes -->
+  </div>
+
+   <!-- POSTS  CARDS-->
+   <!-- todo: for post in posts -->
+  <div class="container card">
+    <div class="row p-3">
+
+      <!-- user profile pic -->
+      <div class="col-3">
+        <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url }}" alt="100x100"> 
+      </div>
+
+      <div class="col-6">
+        <h2> {{ user.first_name }} {{ user.last_name }} ACTION MOVIE</h2>
+        <!-- action: watched, review, whatever -->
+        <!-- movie: movie selected -->
+      </div>
+
+      <div class="col-3">
+        <!-- movie poster url  -->
+        <img style="height:200px;" src="https://m.media-amazon.com/images/I/71BPuv+iRbL._AC_SY741_.jpg">
+      </div>
+
+    </div>
+</div>
+
+  <!-- <p>{{ user.first_name }}</p>
   <p>{{ user.last_name }}</p>
   <p>{{ user.email }}</p>
-  <p>{{ user.created_on }}</p>
+  <p>{{ user.created_on }}</p> -->
+
 {% endblock %}
