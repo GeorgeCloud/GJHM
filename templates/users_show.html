@@ -1,12 +1,18 @@
 {% extends 'partials/base.html' %}
 
-{% block title %} User: username_here {% endblock %}
+{% block title %} {{ user.username }} | Profile {% endblock %}
 
 {% block content %}
-  <h1>User Profile</h1>
+  <h1>{{ user.username }}'s Profile</h1>
 
-  <p>{{ user.first_name }}</p>
-  <p>{{ user.last_name }}</p>
-  <p>{{ user.email }}</p>
-  <p>{{ user.created_on }}</p>
+  <p>
+    Full Name - {{ user.full_name.capitalize() }}</p>
+
+  <p>
+    Email - {{ user.email }}
+  </p>
+
+  <p>
+    Joined {{ user.created_on.strftime('%b %Y') }}
+  </p>
 {% endblock %}
