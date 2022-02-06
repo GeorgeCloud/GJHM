@@ -1,0 +1,12 @@
+{% extends 'partials/base.html' %}
+
+{% block title %} {{ user.username }} | {{ playlist.title }} {% endblock %}
+
+{% block content %}
+
+  <h5>Listed by {{ user.username }}</h5>
+  <h1>{{ playlist.title }}</h1>
+
+
+  <p>Movies here</p>
+{% endblock %}

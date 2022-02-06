@@ -4,7 +4,7 @@
 
 {% block content %}
   <h1>USERS</h1>
-  <!-- for user in users  -->
+  {% for user in users %}
   <div class="container card">
 
     <div class="row p-3">
@@ -16,7 +16,7 @@
 
         <!-- user name  -->
         <div class="col-6">
-          <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+          <a href="{{url_for('users_bp.view_user', username=user.username)}}">{{ user.username }}</a>
         </div>
 
         <!-- follow button -->
@@ -26,4 +26,6 @@
 
       </div>
   </div>
+  {% endfor %}
 {% endblock %}
+
