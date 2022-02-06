@@ -5,3 +5,6 @@ from db import *
 
 reviews_bp = Blueprint('reviews_bp', __name__)
 
+@reviews_bp.route('/', methods=['GET'])
+def index_reviews():
+    

@@ -5,6 +5,7 @@ from db import *
 
 media_bp = Blueprint('media_bp', __name__)
 
+
 @media_bp.route('/', methods=['GET'])
 def index_media():
     # Returns all movies
