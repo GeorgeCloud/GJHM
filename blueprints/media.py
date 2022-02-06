@@ -27,8 +27,7 @@ def create_movie(user_id):
             'acts_dirs':    '',
             'tags':         '',
             'created_on':   datetime.now(),
-            'created_by_name':  user['username'],
-            'created_by':   user_id
+            'created_by_name':  user['username']
         }
 
         media_id = media.insert_one(movie).inserted_id
@@ -45,8 +44,7 @@ def create_movie(user_id):
             'acts_dirs':    '',
             'tags':         '',
             'created_on':   datetime.now(),
-            'created_by_name':  user['username'],
-            'created_by':   user_id
+            'created_by_name':  user['username']
         }
 
         media_id = media.insert_one(tvshow).inserted_id
@@ -60,8 +58,7 @@ def create_movie(user_id):
             'date_watched':     '',
             'tags':             '',
             'created_on':       datetime.now(),
-            'created_by_name':  user['username'],
-            'created_by_id':    user_id
+            'created_by_name':  user['username']
         }
 
         media_id = media.insert_one(ytvid).inserted_id
@@ -145,7 +142,7 @@ def delete_media(media_id):
 def new_review(media_id):
     """Create new review of media, should only be on single media page"""
     review = {
-        'media_id':    request.form.get('media_id'),
+        'media_id':    media_id,
         'user_id':     request.form.get('user_id'),
         'username':    request.form.get('username'),
         'movie_name':  request.form.get('movie_name'),
@@ -155,7 +152,7 @@ def new_review(media_id):
         'tags':        ''
     }
     reviews.insert_one(review)
-    return redirect(url_for('index_media', media_id=request.form.get('media_id')))
+    return redirect(url_for('index_media', media_id=media_id))
 
 @media_bp.route('/<media_id>/reviews/<review_id>/delete', methods=['POST'])
 def delete_review(media_id, review_id):
