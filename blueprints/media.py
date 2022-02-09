@@ -30,7 +30,7 @@ def create_movie(user_id):
     }
 
     if media_type == 'movie':
-        pass  # no need to add or remove attributes for media_item
+        pass  # no need to add or remove attributes for movie_type
 
     elif media_type == 'tvshow':
         media_item['season'] = request.form['season']
