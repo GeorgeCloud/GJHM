@@ -4,7 +4,15 @@
 
 {% block content %}
   <h1>NEW USER</h1>
+  <div class="container m-auto text-center">
+    <h1>Welcome To Heavenly Media</h1>
 
+    <div class="col-1 m-auto">
+        <div class="top-text">
+            <legend>Sign Up</legend>
+        </div>
+    </div>
+</div>
   <form action="/users/create" method="POST">
     {% include 'partials/user_form.html' %}
   </form>

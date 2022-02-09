@@ -1,4 +1,3 @@
-<style>
 .container{
     position: center;
     width: 675px;
@@ -72,38 +71,3 @@ h1{
     background: #CAD2C5;
     color: white;
 }
-</style>
-
-<!-- USER SIGN UP FORM -->
-<div class="container m-auto text-center">
-    <h1>Welcome To Heavenly Media</h1>
-
-    <div class="col-1 m-auto">
-        <div class="top-text">
-            <legend>Sign Up</legend>
-        </div>
-        
-        <div class="row">
-            <label> Username </label>
-            <input type="text" name="username">
-        </div>
-    
-        <div class="row">
-            <label>Full Name </label>
-            <input type="text" name="full_name">
-        </div>
-        
-        <div class="row">
-            <label> Email </label>
-            <input type="email" name="email">
-        </div>
-        
-        <div class="row">
-            <label> Password </label>
-            <input type="password" name="password">
-        </div>
-    </div>
-    
-    
-    <input type="submit" class="m-3">
-</div>
