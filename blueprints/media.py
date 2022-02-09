@@ -20,10 +20,10 @@ def create_movie(user_id):
     media_item = {
         'type':            media_type,
         'title':           request.form['title'],
-        'genre':           request.form['genre'],
+        'genre':           request.form['genre'],           # gets removed for ytvid type
         'year_created':    request.form['year_created'],
         'date_watched':    request.form['date_watched'],
-        'acts_dirs':       request.form['act_dirs'],
+        'acts_dirs':       request.form['act_dirs'],        # gets removed for ytvid type
         'tags':            request.form['tags'],
         'created_by_name': user['username'],
         'created_on':      datetime.now()
