@@ -16,52 +16,33 @@ def index_media():
 def create_movie(user_id):
     """Creates new media to db"""
     user = users.find_one({'_id': ObjectId(user_id)})
-    form_name = request.form['form-name']
-    if form_name == 'movie':
-        movie = {
-            'media_type':   form_name,
-            'movie_name':   'The Dark Knight',
-            'genre':        'John',
-            'year_created': 'Doe',
-            'date_watched': 'password',
-            'acts_dirs':    '',
-            'tags':         '',
-            'created_on':   datetime.now(),
-            'created_by_name':  user['username']
-        }
+    media_type = request.form['type']
+    media_item = {
+        'type':            media_type,
+        'title':           request.form['title'],
+        'genre':           request.form['genre'],
+        'year_created':    request.form['year_created'],
+        'date_watched':    request.form['date_watched'],
+        'acts_dirs':       request.form['act_dirs'],
+        'tags':            request.form['tags'],
+        'created_by_name': user['username'],
+        'created_on':      datetime.now()
+    }
 
-        media_id = media.insert_one(movie).inserted_id
+    if media_type == 'movie':
+        pass  # no need to add or remove attributes for media_item
 
-    elif form_name == 'tvshow':
-        tvshow = {
-            'media_type':   form_name,
-            'tvshow_name':  'email@gmail.com',
-            'season':       'John',
-            'episode':      'Doe',
-            'genre':        'Doe',
-            'year_created': 'password',
-            'date_watched': '',
-            'acts_dirs':    '',
-            'tags':         '',
-            'created_on':   datetime.now(),
-            'created_by_name':  user['username']
-        }
+    elif media_type == 'tvshow':
+        media_item['season'] = request.form['season']
+        media_item['episode'] = request.form['episode']
 
-        media_id = media.insert_one(tvshow).inserted_id
+    elif media_type == 'ytvid':
+        media_item['creator'] = request.form['creator']
 
-    elif form_name == 'ytvid':
-        ytvid = {
-            'media_type':       form_name,
-            'video_name':       'email@gmail.com',
-            'creator':          'John',
-            'date_uploaded':    'Doe',
-            'date_watched':     '',
-            'tags':             '',
-            'created_on':       datetime.now(),
-            'created_by_name':  user['username']
-        }
+        del media_item['genre']
+        del media_item['acts_dirs']
 
-        media_id = media.insert_one(ytvid).inserted_id
+    media_id = media.insert_one(media_item).inserted_id
 
     return redirect(url_for('index_media', media=media.find(), media_id=media_id))
 
