@@ -3,5 +3,66 @@
 {% block title %} media name {% endblock %}
 
 {% block content %}
-  <h1>SHOW SINGLE MEDIA, need mostly for reviews</h1>
+<!-- placeholder nav -->
+<nav class="navbar profile-nav mb-3">
+  <a class="nav-item active"> POSTS </a>
+  <a class="nav-item"> MEDIA </a>
+  <a class="nav-item"> LISTS </a>
+</nav>
+
+<!-- card for movie -->
+<div class="container card">
+  <div class="row p-3">
+
+    <div class="col-3">
+      <img style="width: 250xp;" class="m-auto" src="{{media.img}}" alt="movie poster">
+    </div>
+
+    <div class="col-9">
+
+      <div class="row">
+        <div class="col-3">
+          <h1>{{media.title}}</h1>
+        </div>
+
+        <h3>{{media.year_created}}</h3>
+        
+      </div>
+
+      <p>{{media.description}}</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- card for review -->
+  <div class="container card">
+    <div class="row p-3">
+
+    <!-- user's profile picture -->
+    <div class="col-3">
+      <img  style="width: 250px;" class="m-auto" src="{{user.avatar_url}}" alt="user profile picture"> 
+    </div>
+
+    <div class="col-9">
+      
+      <h1>{{media.title}}</h1> <br>
+
+      <div class="row">
+        <div class="col-3">
+          <h2> {{user.username}} </h2>
+        </div>
+
+        <h3>{{review.date}}</h3>
+
+      </div>
+      
+
+      <!-- review -->
+      <p>{{review.description}}</p>
+      <p>likes, comments</p>
+    </div>
+
+    </div>
+  </div>
 {% endblock %}
