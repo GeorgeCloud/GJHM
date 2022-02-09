@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from datetime import datetime
 from bson.objectid import ObjectId
+import tmdbsimple as tmdb
 from db import *
 
 media_bp = Blueprint('media_bp', __name__, template_folder='templates')
-
+api_search = tmdb.Search()
 
 @media_bp.route('/', methods=['GET'])
 def index_media():
@@ -49,9 +50,10 @@ def create_movie(user_id):
 @media_bp.route('/<media_id>', methods=['GET'])
 def show_media(media_id):
     """Returns page for just one movie,tvshow,ytvid,etc"""
-    medium = media.find_one({'_id': ObjectId(media_id)})
-    medium_reviews = reviews.find({'media_id': media_id})
-    return render_template('media_show.html', medium=medium, reviews=medium_reviews)
+    # medium = media.find_one({'_id': ObjectId(media_id)})
+    # medium_reviews = reviews.find({'media_id': media_id})
+    movie = tmdb.Movies(media_id).info()
+    return render_template('media_show.html', movie=movie)
 
 @media_bp.route('/<media_id>/edit', methods=['GET'])
 def edit_media(media_id):
@@ -107,7 +109,7 @@ def update_media(media_id, user_id):
 
     media.update_one(
         {'_id': ObjectId(media_id)},
-        {'$set':updated_media}
+        {'$set': updated_media}
     )
     return redirect(url_for('index_media', media=media.find()))
 
