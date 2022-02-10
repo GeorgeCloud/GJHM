@@ -4,10 +4,55 @@
 
 {% block content %}
 
-  <div class="jumbotron text-center hero-background-img">
-    <h1>Home Page</h1>
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+
+    <div class="carousel-inner">
+      <div class="carousel-item active" style="height:50vh">
+        <img class="card-img"src="https://i1.wp.com/ianbakerjourneys.com/wp-content/uploads/2020/07/joker-stair-dance.jpg?resize=1024%2C513&ssl=1" alt="First slide">
+        <div class="card-img-overlay text-center text-light">
+          <h5 class="card-title">Home Page</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <button>Sign Up</button>
+        </div>
+      </div>
+
+      <div class="carousel-item  align-middle" style="height:50vh">
+        <img class="card-img" src="https://whatnerd.com/wp-content/uploads/2021/02/most-iconic-sci-fi-movie-scenes-jurassic-park-featured.jpg" alt="Second slide">
+        <div class="card-img-overlay text-center text-light">
+          <h5 class="card-title">Home Page</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <button>Sign Up</button>
+        </div>
+      </div>
+
+      <div class="carousel-item" style="height:50vh">
+        <img class="card-img" src="https://imgix.ranker.com/list_img_v2/13703/2653703/original/famous-movie-scenes-ripped-off-from-other-movies" alt="Third slide">
+        <div class="card-img-overlay text-center text-light">
+          <h5 class="card-title">Home Page</h5>
+          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+          <button>Sign Up</button>
+        </div>
+      </div>
+
+    </div>
+    
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
   </div>
 
+
+  <!-- placeholder nav -->
   <div class= "container card">
     <nav class="navbar profile-nav">
         <a class="nav-item active"> POSTS </a>
@@ -19,6 +64,7 @@
     <!-- TODO: link to routes -->
 </div>
 
+<!-- for post in posts -->
 <div class="container card">
   <div class="row p-3">
 
@@ -28,7 +74,7 @@
     </div>
 
     <div class="col-6">
-      <h2> USER ACTION MOVIE</h2>
+      <h2> posts go here (later) </h2>
       <!-- action: watched, review, whatever -->
       <!-- movie: movie selected -->
     </div>
@@ -40,4 +86,9 @@
 
   </div>
 </div>
+
+<!-- SCRIPTS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 {% endblock %}
