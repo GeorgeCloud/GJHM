@@ -15,8 +15,7 @@
   <div class="row p-3">
 
     <div class="col-3">
-      <img style="width: 250xp;" class="m-auto" src="{{media.img}}" alt="movie poster">
-    </div>
+      <img style="height:200px; width: 100px;" src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" class="img-fluid rounded-start" alt="...">    </div>
 
     <div class="col-9">
 
@@ -46,8 +45,8 @@
 
     <div class="col-9">
       
-      <h1>{{media.title}}</h1> <br>
-
+      <h5 class="card-title"><a href="/media/{{ movie.id }}">{{ movie.title }}</a></h5>
+      <p class="card-text"><small class="text-muted">{{ movie.release_date }}</small></p>
       <div class="row">
         <div class="col-3">
           <h2> {{user.username}} </h2>
@@ -64,5 +63,6 @@
     </div>
 
     </div>
+
   </div>
 {% endblock %}
