@@ -3,12 +3,16 @@
 {% block title %} {{ user }}'s playlist {% endblock %}
 
 {% block content %}
-  <h1>{{ user.username }}'s Playlists</h1>
-  {% for playlist in playlists %}
+  <h1 class="text-center">{{ user.username }}'s Playlists</h1>
+  <div class="container">
+    {% for playlist in playlists %}
     <ul>
       <li>
         <a href="playlists/{{ playlist._id }}">{{ playlist.title }}</a>
+        <!-- add thumbnail image -->
       </li>
     </ul>
   {% endfor %}
+  </div>
+  
 {% endblock %}

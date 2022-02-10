@@ -9,7 +9,8 @@ app.register_blueprint(media_bp, url_prefix='/media')
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    return render_template('playlists_show.html')
+
 
 if __name__ == '__main__':
     app.run(port=8001, debug=True)
