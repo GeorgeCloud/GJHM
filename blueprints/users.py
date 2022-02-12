@@ -11,25 +11,6 @@ def index_users():
 
     return render_template('users.html', users=all_users)
 
-@users_bp.route('/new', methods=['GET'])
-def new_user():
-    return render_template('users_new.html')
-
-@users_bp.route('/create', methods=['POST'])
-def create_user():
-    user = {
-        'email':      request.form['email'],
-        'username':   request.form['username'],
-        'full_name': request.form['full_name'],
-        'password':   request.form['password'],
-        'avatar_url': '',
-        'created_on': datetime.now(),
-    }
-
-    users.insert_one(user)
-
-    return redirect(url_for('users_bp.view_user', username=user['username']))
-
 @users_bp.route('/<username>', methods=['GET'])
 def view_user(username):
     user = users.find_one({'username': username})
