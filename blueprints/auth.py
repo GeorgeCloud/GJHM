@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from datetime import datetime
-from db import users
+from db import users, bcrypt
 import uuid
 from extensions import is_authenticated
 
@@ -13,12 +13,13 @@ def signup():
         return redirect(url_for('homepage'))
 
     if request.method == 'POST':
+        password = request.form['password']
         user = {
             '_id':        uuid.uuid4().hex,
             'email':      request.form['email'],
             'username':   request.form['username'],
             'full_name':  request.form['full_name'],
-            'password':   request.form['password'],
+            'password':   bcrypt.generate_password_hash(password).decode('utf-8'),
             'avatar_url': '',
             'created_on': datetime.now(),
         }
@@ -40,7 +41,7 @@ def login():
         user = users.find_one({'username': username})
 
         # Create form validator
-        if user and user['password'] == password:
+        if user and bcrypt.check_password_hash(user['password'], password):
             del user['password']
             session['current_user'] = user
             flash('Logged In')

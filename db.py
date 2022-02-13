@@ -5,6 +5,7 @@ from flask_bcrypt import Bcrypt
 from os import environ
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 app.secret_key = '##-##<F>Society##-##'
 
 # ======= DB Setup ==========
