@@ -1,31 +1,56 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from datetime import datetime
+import uuid
+
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from bson.objectid import ObjectId
-# from db import users
+from datetime import datetime
+from db import users
 
 auth_bp = Blueprint('auth_bp', __name__, template_folder='templates')
 
+
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 def signup():
+    # import pdb;pdb.set_trace()
     if request.method == 'GET':
-        pass
+        return render_template('signup.html')
     else:
         user = {
+            '_id':        uuid.uuid4().hex,
             'email':      request.form['email'],
             'username':   request.form['username'],
-            'full_name': request.form['full_name'],
+            'full_name':  request.form['full_name'],
             'password':   request.form['password'],
             'avatar_url': '',
             'created_on': datetime.now(),
         }
-        users.insert_one(user)
-        return redirect(url_for('users_bp.view_user', username=user['username']))
-    return render_template('signup.html')
+        if users.insert_one(user):
+            del user['password']
+            session['current_user'] = user
+            flash('Successfully Signed Up.')
 
-@auth_bp.route('/login', methods=['GET'])
+    return redirect(url_for('auth_bp.login'))
+
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('signup.html')
+    if request.method == 'GET':
+        pass
+    else:
+        username = request.form['username']
+        password = request.form['password']
+        user = users.find_one({'username': username})
 
-@auth_bp.route('/logout', methods=['GET'])
+        # Create form validator
+        if user and user['password'] == password:
+            del user['password']
+            session['current_user'] = user
+            flash('Logged In')
+            return redirect(url_for('homepage'))
+
+    return render_template('login.html')
+
+
+@auth_bp.route('/logout', methods=['POST'])
 def logout():
-    return render_template('users_new.html')
+    session.clear()
+    return redirect(url_for('homepage'))

@@ -13,8 +13,17 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-    {% block content %}{% endblock %}
+    {% include 'partials/navbar.html' %}
+    {% include 'partials/flash_messages.html' %}
+    {{ session['current_user'] }}
 
+    {% block content %}
+
+
+      {#  All Content Goes Here  #}
+
+
+    {% endblock %}
   </body>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
