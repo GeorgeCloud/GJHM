@@ -1,4 +1,5 @@
 from flask import render_template, request
+from extensions import login_required
 from blueprints.users import users_bp
 from blueprints.media import media_bp
 from blueprints.auth import auth_bp
@@ -16,6 +17,7 @@ def homepage():
     return render_template('index.html')
 
 @app.route('/search', methods=['GET', 'POST'])
+@login_required
 def search():
     if request.method == 'GET':
         return render_template('search.html')
