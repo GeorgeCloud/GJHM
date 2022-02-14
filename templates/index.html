@@ -1,9 +1,11 @@
 {% extends 'partials/base.html' %}
 
 {% block title %} Index {% endblock %}
-
+<!-- navbar -->
+{% include 'partials/navbar.html' %}
 {% block content %}
 
+<!-- carousel -->
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
     <ol class="carousel-indicators">
       <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -51,21 +53,8 @@
     </a>
   </div>
 
-
-  <!-- placeholder nav -->
-  <div class= "container card">
-    <nav class="navbar profile-nav">
-        <a class="nav-item active"> POSTS </a>
-        <a class="nav-item"> MEDIA </a>
-        <a class="nav-item"> LISTS </a>
-    </nav>
-  
-
-    <!-- TODO: link to routes -->
-</div>
-
 <!-- for post in posts -->
-<div class="container card">
+<div class="container card mt-3">
   <div class="row p-3">
 
     <!-- user profile pic -->
