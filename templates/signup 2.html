@@ -1,0 +1,11 @@
+{% extends 'partials/base.html' %}
+
+{% block title %} New User {% endblock %}
+
+{% block content %}
+  <h1>NEW USER</h1>
+
+  <form method="POST">
+    {% include 'partials/signup_form.html' %}
+  </form>
+{% endblock %}
