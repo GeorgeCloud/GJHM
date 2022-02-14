@@ -1,5 +1,9 @@
+body{
+    background: #2F3E46;
+}
+
 .container{
-    position: center;
+    position: absolute;
     width: 675px;
     height: 385px;
     background: #52796F;
@@ -8,13 +12,15 @@
     font-family: Roboto;
     font-size: 18px;
     line-height: 42px;
-    float: center;
+    float: right;
     margin: auto;
     align-items: center;
     justify-content: center;
     display: grid;
     padding: 1rem;
     margin-bottom: 1rem;
+    left: 946px;
+    top: 319px;
 }
 
 .row{
@@ -70,4 +76,58 @@ h1{
     height: 40px;
     background: #CAD2C5;
     color: white;
+}
+
+input{
+    background: #CAD2C5;
+    width: 500px;
+    height: 48px;
+    border-radius: 80px;
+}
+
+.bottom{
+    position: absolute;
+    width: 1486px;
+    height: 50px;
+    left: 135px;
+    top: 811px;
+    background: #52796F;
+    border-radius: 80px;
+}
+
+.top{
+    position: absolute;
+    width: 1728px;
+    height: 145px;
+    left: 0px;
+    top: 0px;
+    background: #CAD2C5;
+}
+
+.rectangle{
+    position: absolute;
+    width: 1728px;
+    height: 145px;
+    left: 0px;
+    top: 972px;
+    background: #CAD2C5;
+}
+
+.star{
+    position: absolute;
+    width: 90px;
+    height: 90px;
+    left: 45px;
+    top: 31px;
+    background: #52796F;
+}
+
+.frame{
+    position: absolute;
+    width: 160px;
+    height: 40px;
+    left: 1541px;
+    top: 56px;
+    background: #52796F;
+    border-radius: 80px;
 }
