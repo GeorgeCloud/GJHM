@@ -4,8 +4,6 @@
 
 {% block content %}
 
-  {% include 'partials/navbar.html' %}
-
   <div class="container">
     <h2>Showing search results for {{search_query}}</h2>
 
@@ -36,26 +34,27 @@
 {#        </div>#}
 {#      </div>#}
 {#    </div>#}
-    <div>
-      {% for movie in movies %}
-        {#    Card for movie    #}
-        <div class="card mb-3" style="max-width: 540px;">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" class="img-fluid rounded-start" alt="...">
-            </div>
-            {#     Card Body       #}
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title"><a href="/media/{{ movie.id }}">{{ movie.title }}</a></h5>
-                <p class="card-text">{{ movie.info }}</p>
-                <p class="card-text"><small class="text-muted">{{ movie.release_date }}</small></p>
+      <div>
+        {% for movie in movies %}
+          {#    Card for movie    #}
+          <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" class="img-fluid rounded-start" alt="...">
+              </div>
+              {#     Card Body       #}
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title"><a href="/media/{{ movie.id }}">{{ movie.title }}</a></h5>
+                  <p class="card-text">{{ movie.info }}</p>
+                  <p class="card-text"><small class="text-muted">{{ movie.release_date }}</small></p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      {#    End of Card    #}
-      {% endfor %}
+          {#    End of Card    #}
+          {% endfor %}
+      </div>
     </div>
   </div>
 

@@ -47,6 +47,25 @@
         <form class="form-inline my-2 my-lg-0" action="/search" method="POST">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_query">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
         </form>
+      {% endif %}
+
+      <ul class="navbar-nav">
+        {% if not session['current_user'] %}
+        <li>
+          <a class="nav-link" href="/signup">Signup</a>
+        </li>
+        <li>
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+        {% else %}
+        <li>
+          <form action="/logout" method="POST">
+            <button type="submit" class="btn btn-outline-secondary">Logout</button>
+          </form>
+        </li>
+        {% endif %}
+      </ul>
     </div>
 </nav>

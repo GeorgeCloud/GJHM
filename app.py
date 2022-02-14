@@ -1,18 +1,19 @@
-from flask import Flask, render_template, request
+from flask import render_template, request
+from extensions import login_required
 from blueprints.users import users_bp
 from blueprints.media import media_bp
+from blueprints.auth import auth_bp
 import tmdbsimple as tmdb
 from db import *
 
-app = Flask(__name__)
-
 app.register_blueprint(users_bp, url_prefix='/users')
 app.register_blueprint(media_bp, url_prefix='/media')
+app.register_blueprint(auth_bp, url_prefix='/')
 
 api_search = tmdb.Search()
 
 @app.route('/', methods=['GET'])
-def index():
+def homepage():
     return render_template('index.html')
 
 @app.route('/search', methods=['GET', 'POST'])
@@ -27,4 +28,4 @@ def search():
 
 
 if __name__ == '__main__':
-    app.run(port=8001, debug=True)
+    app.run(port=8001, debug=False)

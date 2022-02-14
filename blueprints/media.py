@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import login_required
 from datetime import datetime
 from bson.objectid import ObjectId
 import tmdbsimple as tmdb
@@ -8,6 +9,7 @@ media_bp = Blueprint('media_bp', __name__, template_folder='templates')
 api_search = tmdb.Search()
 
 @media_bp.route('/', methods=['GET'])
+@login_required
 def index_media():
     """Return ALL media"""
     return render_template('media_index.html', media=media.find())
