@@ -1,5 +1,8 @@
 body{
     background: #2F3E46;
+    position: relative;
+    width: 1728px;
+    height: 1117px;
 }
 
 .container{
