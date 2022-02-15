@@ -1,5 +1,5 @@
-from flask import render_template, request
-from extensions import login_required
+from flask import render_template, request, session
+from extensions import is_authenticated
 from blueprints.users import users_bp
 from blueprints.media import media_bp
 from blueprints.auth import auth_bp
@@ -23,9 +23,15 @@ def search():
 
     search_query = request.form["search_query"]
     movies = api_search.movie(query=search_query)['results'][:3]
+    user_playlists = None
 
-    return render_template('search.html', search_query=search_query, movies=movies)
+    if is_authenticated():
+        user_playlists = playlists.find({'user_id': session['current_user']['_id']})
+        for idx, movie in enumerate(movies):
+            movie['playlist_id'] = user_playlists[idx]['_id']
+
+    return render_template('search.html', search_query=search_query, movies=movies, playlists=list(user_playlists))
 
 
 if __name__ == '__main__':
-    app.run(port=8001, debug=False)
+    app.run(port=8001, debug=True)
