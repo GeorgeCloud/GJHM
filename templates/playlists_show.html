@@ -12,8 +12,8 @@
 <!-- main playlist card -->
 <div class="container card p-3">
   <!-- playlist info -->
-  <h5>Listed by {{user.username}}</h5>
-  <h1>{{playlist.title}}</h1>
+{#  <h5>Listed by {{user.username}}</h5>#}
+{#  <h1>{{playlist.title}}</h1>#}
   <p>playlist description</p>
 
   <!-- for movie in playlists -->
@@ -22,15 +22,15 @@
     <div class="row p-3">
 
       <div class="col-3 p-3">
-        <img style="width: 200px;" class="m-auto" src="{{media.url}}" alt="movie poster">
+{#        <img style="width: 200px;" class="m-auto" src="{{media.url}}" alt="movie poster">#}
       </div>
 
       <div class="col-9">
         <div class="col-3">
-          <h3>{{media.title}}</h3>
+{#          <h3>{{media.title}}</h3>#}
         </div>
 
-        <p>{{media.year_created}}</p>
+{#        <p>{{media.year_created}}</p>#}
       </div>
 
     </div>
@@ -45,5 +45,6 @@
     <li>{{ item }}</li>
   {% endfor %}
 </ul>
+
 {% endblock %}
   

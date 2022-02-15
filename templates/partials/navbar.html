@@ -1,9 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">GJHM</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+  <a class="navbar-brand" href="/">GJHM</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
   
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           {% if 'current_user' in session %}
@@ -12,66 +13,74 @@
           </li>
         {% endif %}
 
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
 
-            <li class="nav-item">
-            <a class="nav-link" href="#">Movies</a>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link" href="#">TV</a>
-            </li>
+      {% if 'current_user' in session %}
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('users_bp.view_user', username=session['current_user']['username']) }}">Profile<span class="sr-only">(current)</span></a>
+        </li>
+      {% endif %}
 
-            <li class="nav-item">
-                <a class="nav-link" href="#">Youtube</a>
-            </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/media">All Media</a>
+      </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="#">Reviews</a>
-            </li>
+      <li class="nav-item">
+        <a class="nav-link" href="media#movies">Movies</a>
+      </li>
 
-            <!-- <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+      <li class="nav-item">
+        <a class="nav-link" href="media#tvshows">TV</a>
+      </li>
 
-            </li>
-            <li class="nav-item">
-            <a class="nav-link disabled" href="#">Disabled</a>
-            </li> -->
-        </ul>
-        <!-- ONLY THING I NEED FOR THE NAVBAR!!! -->
-        <form class="form-inline my-2 my-lg-0" action="/search" method="POST">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_query">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <li class="nav-item">
+        <a class="nav-link" href="media#youtube">Youtube</a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" href="/reviews">Reviews</a>
+      </li>
 
 
+      <!-- <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Something else here</a>
+      </div>
+
+      </li>
+      <li class="nav-item">
+      <a class="nav-link disabled" href="#">Disabled</a>
+      </li> -->
+    </ul>
+    <!-- ONLY THING I NEED FOR THE NAVBAR!!! -->
+    {% if session['current_user'] %}
+      <form class="form-inline my-2 my-lg-0 mr-5" action="{{ url_for('media_bp.search_media') }}" method="POST">
+        <input style="width: 20vw;" class="form-control mr-sm-2" type="search" placeholder="Search Media" aria-label="Search" name="search_query">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    {% endif %}
+
+    <ul class="navbar-nav">
+      {% if not session['current_user'] %}
+      <li>
+        <a class="nav-link" href="/signup">Signup</a>
+      </li>
+      <li>
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      {% else %}
+      <li>{{ session['current_user']['username'] }}</li>
+      <li>
+        <form action="/logout" method="POST">
+          <button type="submit" class="btn btn-outline-secondary">Logout</button>
         </form>
-
-      <ul class="navbar-nav">
-        {% if not session['current_user'] %}
-        <li>
-          <a class="nav-link" href="/signup">Signup</a>
-        </li>
-        <li>
-          <a class="nav-link" href="/login">Login</a>
-        </li>
-        {% else %}
-        <li>{{ session['current_user']['username'] }}</li>
-        <li>
-          <form action="/logout" method="POST">
-            <button type="submit" class="btn btn-outline-secondary">Logout</button>
-          </form>
-        </li>
-        {% endif %}
-      </ul>
-    </div>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
 </nav>
