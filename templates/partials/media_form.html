@@ -1,25 +1,214 @@
 <legend>New Media</legend>
 
 TYPE OF MEDIA
-<input type="radio" name="form-name" value="movie">
-<input type="radio" name="form-name" value="tvshow">
-<input type="radio" name="form-name" value="ytvid">
+<label for="movie">Movie</label>
+<input type="radio" name="form-name" value="movie" onClick="movies()">
+<label for="movie">TV</label>
+<input type="radio" name="form-name" value="tvshow" onClick="tv()">
+<label for="movie">YOUTUBE</label>
+<input type="radio" name="form-name" value="ytvid" onClick="ytvid()">
 
-IF MOVIE
-movie name
-<input type="text" name="movie_name">
-genre (optional)
-<input type="text" name="genre">
-year created
-<input type="date" name="year_created">
-date watched
-<input type="date" name="date_watched">
-notable actors and directors (optional, may need them to separate with new lines?)
-<input type="text" name="acts_dirs">
-tags (super optional, for bike)
-<input type="text" name="tags">
+<p id="MEDIA_DOWN"></p>
 
-IF TVSHOW
+<script>
+var down = document.getElementById("MEDIA_DOWN");
+   
+// Create a break line element
+var br = document.createElement("br");
+
+// creates movie form
+function movies() {
+       
+// Create a form dynamically
+var form = document.createElement("form");
+form.setAttribute("method", "post");
+form.setAttribute("action", "submit");
+
+// Create an input element for Movie Name
+var FN = document.createElement("input");
+FN.setAttribute("type", "text");
+FN.setAttribute("name", "movie_name");
+FN.setAttribute("placeholder", "Movie Name");
+
+// Create an input element for year created
+var DOB = document.createElement("input");
+DOB.setAttribute("type", "text");
+DOB.setAttribute("name", "year_created");
+DOB.setAttribute("placeholder", "Year Created");
+
+// Create an input element for date watched
+var EID = document.createElement("input");
+     EID.setAttribute("type", "date");
+     EID.setAttribute("name", "date_watched");
+     EID.setAttribute("placeholder", "Date Watched");
+ 
+ 
+    // create a submit button
+    var s = document.createElement("input");
+    s.setAttribute("type", "submit");
+    s.setAttribute("value", "Submit");
+                    
+    // Append the full name input to the form
+    form.appendChild(FN);
+                    
+    // Inserting a line break
+    form.appendChild(br.cloneNode());
+                    
+    // Append the DOB to the form
+    form.appendChild(DOB);
+    form.appendChild(br.cloneNode());
+                    
+    // Append the emailID to the form
+    form.appendChild(EID);
+    form.appendChild(br.cloneNode());
+                    
+                    
+    // Append the submit button to the form
+    form.appendChild(s);
+    
+    document.getElementsByTagName("body")[0]
+    .appendChild(form);
+}
+
+
+// creates TV Form
+function tv() {
+// Create a form dynamically
+var form = document.createElement("form");
+form.setAttribute("method", "post");
+form.setAttribute("action", "submit");
+
+// Create an input element for TV Show Name
+var TVN = document.createElement("input");
+TVN.setAttribute("type", "text");
+TVN.setAttribute("name", "tvshow_name");
+TVN.setAttribute("placeholder", "TV Show Name");
+
+// create input for season
+var SZN = document.createElement("input");
+SZN.setAttribute("type", "number");
+SZN.setAttribute("name", "season");
+SZN.setAttribute("placeholder", "Season");
+
+// create input for episode
+var EP = document.createElement("input");
+EP.setAttribute("type", "text");
+EP.setAttribute("name", "episode");
+EP.setAttribute("placeholder", "Episode");
+
+// create year created
+var YRC = document.createElement("input");
+YRC.setAttribute("type", "text")
+YRC.setAttribute("name", "year_created");
+YRC.setAttribute("placeholder", "Year Created");
+
+// create date watched
+var YRW = document.createElement("input");
+YRW.setAttribute("type", "date")
+YRW.setAttribute("name", "date_watched");
+YRW.setAttribute("placeholder", "Date Watched");
+
+// create a submit button
+var s = document.createElement("input");
+    s.setAttribute("type", "submit");
+    s.setAttribute("value", "Submit");
+                    
+    // Append the full name input to the form
+    form.appendChild(TVN);
+                    
+    // Inserting a line break
+    form.appendChild(br.cloneNode());
+
+    // inserting season
+    form.appendChild(SZN);
+    form.appendChild(br.cloneNode());
+
+    // inserting episode
+    form.appendChild(EP);
+    form.appendChild(br.cloneNode());
+
+    form.appendChild(YRC);
+    form.appendChild(br.cloneNode());
+
+    form.appendChild(YRW);
+    form.appendChild(br.cloneNode());
+                               
+    // Append the submit button to the form
+    form.appendChild(s);
+    
+    document.getElementsByTagName("body")[0]
+    .appendChild(form);
+}
+
+// creates yt video form
+function ytvid() {
+
+// Create a form dynamically
+var form = document.createElement("form");
+form.setAttribute("method", "post");
+form.setAttribute("action", "submit");
+
+// Create an input element for TV Show Name
+var VN = document.createElement("input");
+VN.setAttribute("type", "text");
+VN.setAttribute("name", "video_name");
+VN.setAttribute("placeholder", "Video Title");
+
+var VC = document.createElement("input");
+VC.setAttribute("type", "text");
+VC.setAttribute("name", "video_creator");
+VC.setAttribute("placeholder", "Video Creator");
+
+var DU = document.createElement("input");
+DU.setAttribute("type", "date");
+DU.setAttribute("name", "date_uploaded");
+DU.setAttribute("placeholder", "Date Uploaded");
+
+var DW = document.createElement("input");
+DW.setAttribute("type", "date");
+DW.setAttribute("name", "date_watched");
+DW.setAttribute("placeholder", "Date Watched");
+
+
+var s = document.createElement("input");
+    s.setAttribute("type", "submit");
+    s.setAttribute("value", "Submit");
+                    
+    // Append the full name input to the form
+    form.appendChild(VN);
+    form.appendChild(br.cloneNode());
+
+    form.appendChild(VC);
+    form.appendChild(br.cloneNode());
+
+    form.appendChild(DU);
+    form.appendChild(br.cloneNode());
+
+    form.appendChild(DW);
+    form.appendChild(br.cloneNode());
+    // Append the submit button to the form
+    form.appendChild(s);
+    
+    document.getElementsByTagName("body")[0]
+    .appendChild(form);
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- movie to do -->
+<!-- genre, actors or directors, tags -->
+
+<!-- IF TVSHOW
 show Name
 <input type="text" name="tvshow_name">
 season (optional)
@@ -47,4 +236,4 @@ date uploaded
 date watched
 <input type="date" name="date_watched">
 tags (super optional, for bike)
-<input type="text" name="tags">
+<input type="text" name="tags"> -->
