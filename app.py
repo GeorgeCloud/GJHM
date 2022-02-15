@@ -1,5 +1,5 @@
-from flask import render_template, request
-from extensions import login_required
+from flask import render_template, request, session
+from extensions import is_authenticated
 from blueprints.users import users_bp
 from blueprints.media import media_bp
 from blueprints.auth import auth_bp
@@ -16,16 +16,6 @@ api_search = tmdb.Search()
 def homepage():
     return render_template('index.html')
 
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    if request.method == 'GET':
-        return render_template('search.html')
-
-    search_query = request.form["search_query"]
-    movies = api_search.movie(query=search_query)['results'][:3]
-
-    return render_template('search.html', search_query=search_query, movies=movies)
-
 
 if __name__ == '__main__':
-    app.run(port=8001, debug=False)
+    app.run(port=8001, debug=True)

@@ -35,19 +35,29 @@
 {#      </div>#}
 {#    </div>#}
       <div>
-        {% for movie in movies %}
+        {% for media_item in media %}
           {#    Card for movie    #}
           <div class="card mb-3" style="max-width: 540px;">
             <div class="row g-0">
               <div class="col-md-4">
-                <img src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" class="img-fluid rounded-start" alt="...">
+                <img src="https://www.themoviedb.org/t/p/w1280/{{ media_item.poster_path }}" class="img-fluid rounded-start" alt="...">
               </div>
               {#     Card Body       #}
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title"><a href="/media/{{ movie.id }}">{{ movie.title }}</a></h5>
-                  <p class="card-text">{{ movie.info }}</p>
-                  <p class="card-text"><small class="text-muted">{{ movie.release_date }}</small></p>
+                  <h5 class="card-title"><a href="/media/review/{{ media_item.id }}">{{ media_item.title }}</a></h5>
+                  <p class="card-text">{{ media_item.overview[:150] }}...</p>
+                  <p class="card-text"><small class="text-muted">{{ media_item.release_date }}</small></p>
+                    <form method="POST" action="{{ url_for('users_bp.index_playlists', username=session['current_user']['username']) }}">
+                      <input type="hidden" name="media_id" value="{{ media_item.id }}">
+                      <input type="hidden" name="playlist_id" value="{{ media_item['playlist_id'] }}">
+                      <select id="playlists" name="playlists">
+                        {% for playlist in playlists %}
+                          <option value="{{ playlist.title }}">{{ playlist.title }}</option>
+                        {% endfor %}
+                      </select>
+                      <input type="submit" value="Add to playlist">
+                    </form>
                 </div>
               </div>
             </div>

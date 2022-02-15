@@ -17,9 +17,10 @@ db = client.get_default_database()
 
 # ======= Collections ==========
 users = db.users
+users.create_index('username', unique=True)
+playlists = db.playlists
 media = db.media
 reviews = db.reviews
-playlists = db.playlists
 # =========================
 
 

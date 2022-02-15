@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, session
+from extensions import is_authenticated
 from flask_login import login_required
 from datetime import datetime
 from bson.objectid import ObjectId
@@ -9,10 +10,10 @@ media_bp = Blueprint('media_bp', __name__, template_folder='templates')
 api_search = tmdb.Search()
 
 @media_bp.route('/', methods=['GET'])
-@login_required
 def index_media():
     """Return ALL media"""
-    return render_template('media_index.html', media=media.find())
+    popular_media = tmdb.Movies().popular()['results']
+    return render_template('media_index.html', media=popular_media)
 
 
 @media_bp.route('/create', methods=['POST'])
@@ -49,11 +50,35 @@ def create_movie(user_id):
 
     return redirect(url_for('index_media', media=media.find(), media_id=media_id))
 
+@media_bp.route('/search', methods=['GET', 'POST'])
+def search_media():
+    if request.method == 'GET':
+        return render_template('media_search.html')
+
+    search_query = request.form["search_query"]
+    all_media = api_search.multi(query=search_query)['results'][:3]
+    user_playlists = None
+
+    for idx, media_item in enumerate(all_media):
+        if is_authenticated():
+            user_playlists = playlists.find({'user_id': session['current_user']['_id']})
+            media_item['playlist_id'] = user_playlists[idx]['_id']
+        # media_item['rating'] = user_playlists[idx]['rating']
+
+    return render_template('media_search.html',
+                           search_query=search_query, media=all_media, playlists=list(user_playlists))
+
+
 @media_bp.route('/<media_id>', methods=['GET'])
-def show_media(media_id):
+def show_media():
+    pass
+
+@media_bp.route('/<media_id>/<review_id>', methods=['GET'])
+def show_review(media_id, review_id):
     """Returns page for just one movie,tvshow,ytvid,etc"""
     # medium = media.find_one({'_id': ObjectId(media_id)})
     # medium_reviews = reviews.find({'media_id': media_id})
+    # media_reviews = reviews.find({'media_review': })
     movie = tmdb.Movies(media_id).info()
     return render_template('media_show.html', movie=movie)
 
