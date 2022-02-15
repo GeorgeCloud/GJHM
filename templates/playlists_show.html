@@ -39,7 +39,11 @@
 
 </div>
   
-
-
+<ul>
+  {% for item in media %}
+    <li>{{ item.title }}</li>
+    <li>{{ item }}</li>
+  {% endfor %}
+</ul>
 {% endblock %}
   
