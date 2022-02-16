@@ -1,10 +1,8 @@
 {% extends 'partials/base.html' %}
 
-{% block title %} New User {% endblock %}
+{% block title %} New Playlist {% endblock %}
 
 {% block content %}
-  <!-- <h1>NEW Pl</h1> -->
-
   <form action="/users/{{ username }}/playlists/create" method="POST">
     {% include 'partials/playlist_form.html' %}
   </form>

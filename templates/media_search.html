@@ -48,16 +48,17 @@
                   <h5 class="card-title"><a href="/media/review/{{ media_item.id }}">{{ media_item.title }}</a></h5>
                   <p class="card-text">{{ media_item.overview[:150] }}...</p>
                   <p class="card-text"><small class="text-muted">{{ media_item.release_date }}</small></p>
-                    <form method="POST" action="{{ url_for('users_bp.index_playlists', username=session['current_user']['username']) }}">
-                      <input type="hidden" name="media_id" value="{{ media_item.id }}">
-                      <input type="hidden" name="playlist_id" value="{{ media_item['playlist_id'] }}">
-                      <select id="playlists" name="playlists">
-                        {% for playlist in playlists %}
-                          <option value="{{ playlist.title }}">{{ playlist.title }}</option>
-                        {% endfor %}
-                      </select>
-                      <input type="submit" value="Add to playlist">
-                    </form>
+                {% if 'current_user' in session %}
+                  <form action="{{ url_for('users_bp.index_playlists', username=session['current_user']['username']) }}" method="POST">
+                    <input type="hidden" name="media_id" value="{{ media_item.id }}">
+                    <select name="playlist_id">
+                      {% for playlist in playlists %}
+                        <option value="{{ playlist['_id'] }}">{{ playlist['title'] }}</option>
+                      {% endfor %}
+                    </select>
+                    <input type="submit" value="Add to playlist">
+                  </form>
+                {% endif %}
                 </div>
               </div>
             </div>

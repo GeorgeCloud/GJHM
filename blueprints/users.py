@@ -41,12 +41,17 @@ def index_playlists(username):
         user_playlists = playlists.find({'user_id': user['_id']})
         return render_template('playlists.html', user=user, playlists=user_playlists)
     else:
-        playlist = playlists.find_one({'_id': request.form['playlist_id']})
+
+        # playlist = playlists.find_one({'_id': request.form['playlist_id']})
         media_id = request.form['media_id']
 
         import pdb;pdb.set_trace()
+        # playlist.update_one({'$addToSet': })
 
-        playlist.update({'$addToSet': {'media_ids': media_id}})
+        playlists.update_one(
+            {'_id': request.form['playlist_id']},
+            {'$addToSet': {'media_ids': media_id}}
+        )
 
         return redirect(request.referrer)
 
@@ -63,6 +68,7 @@ def create_playlist(username):
         playlist = {
             '_id':             uuid.uuid4().hex,
             'title':           request.form['title'],
+            'description':     request.form['description'],
             'user_id':         session['current_user']['_id'],
             'last_updated':    time_created_on,
             'created_on':      time_created_on,
@@ -83,7 +89,7 @@ def view_playlist(username, playlist_id):
 
     playlist = playlists.find_one({'_id': playlist_id})
 
-    playlist_media = [find_movie(m.id) for m in playlist['media_ids']]
+    playlist_media = [find_movie(media_id) for media_id in playlist['media_ids']]
 
     return render_template('playlists_show.html', user=user, playlist=playlist, media=playlist_media)  #, playlists=user_playlists
 
@@ -92,7 +98,6 @@ def view_playlist(username, playlist_id):
 #     user = users.find_one({'username': username})
 #
 #     playlist = playlists.find_one({'_id': playlist_id})
-#     import pdb; pdb.set_trace()
 #
 #     if request.method == 'GET':
 #         return render_template('playlists_show.html', user=user, playlist=playlist)  # , playlists=user_playlists
