@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
-from extensions import is_authenticated
+from extensions import is_authenticated, user_playlists
 from flask_login import login_required
 from datetime import datetime
 from bson.objectid import ObjectId
@@ -54,15 +54,18 @@ def create_movie(user_id):
 def search_media():
     if request.method == 'GET':
         return render_template('media_search.html')
-    else:
-        search_query = request.form['search_query']
-        all_media = api_search.multi(query=search_query)['results'][:3]
-        user_playlists = None
 
-        if is_authenticated():
-            user_playlists = playlists.find({'user_id': session['current_user']['_id']})
+    search_query = request.form['search_query']
+    all_media = api_search.multi(query=search_query)['results'][:3]
+    user_lists = None
 
-        return render_template('media_search.html', media=all_media, playlists=list(user_playlists))
+    if is_authenticated():
+        user_lists = user_playlists(session['current_user']['_id'])
+
+    return render_template('media_search.html',
+                           search_query=search_query,
+                           media=all_media,
+                           playlists=list(user_lists) if user_lists else None)
 
 
 @media_bp.route('/<media_id>', methods=['GET'])

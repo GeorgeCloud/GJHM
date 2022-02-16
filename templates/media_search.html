@@ -49,7 +49,7 @@
                   <p class="card-text">{{ media_item.overview[:150] }}...</p>
                   <p class="card-text"><small class="text-muted">{{ media_item.release_date }}</small></p>
                 {% if 'current_user' in session %}
-                  <form action="{{ url_for('users_bp.index_playlists', username=session['current_user']['username']) }}" method="POST">
+                  <form action="{{ url_for('users_bp.update_playlist', username=session['current_user']['username']) }}" method="POST">
                     <input type="hidden" name="media_id" value="{{ media_item.id }}">
                     <select name="playlist_id">
                       {% for playlist in playlists %}
