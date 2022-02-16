@@ -39,7 +39,7 @@
       <nav class="navbar profile-nav">
           <a class="nav-item active"> POSTS </a>
           <a class="nav-item"> MEDIA </a>
-          <a class="nav-item"> LISTS </a>
+          <a class="nav-item" href="{{ user.username }}/playlists"> LISTS </a>
       </nav>
       <!-- TODO: link to routes -->
   </div>
@@ -64,7 +64,6 @@
         <!-- movie poster url  -->
         <img style="height:200px;" src="https://m.media-amazon.com/images/I/71BPuv+iRbL._AC_SY741_.jpg">
       </div>
-
     </div>
 </div>
 
@@ -74,4 +73,3 @@
   <p>{{ user.created_on }}</p> -->
 
 {% endblock %}
-
