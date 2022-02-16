@@ -3,8 +3,10 @@ from pymongo import MongoClient
 from flask_login import LoginManager, current_user
 from flask_bcrypt import Bcrypt
 from os import environ
+from config import Config
 
 app = Flask(__name__)
+app.config.from_object(Config)
 bcrypt = Bcrypt(app)
 app.secret_key = '##-##<F>Society##-##'
 
