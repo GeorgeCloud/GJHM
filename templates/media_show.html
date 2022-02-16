@@ -1,13 +1,70 @@
+
+<!-- shows a single  -->
 {% extends 'partials/base.html' %}
 
 {% block title %} media name {% endblock %}
 
 {% block content %}
-  <h1>SHOW SINGLE MEDIA, need mostly for reviews</h1>
+<!-- placeholder nav -->
+<nav class="navbar profile-nav mb-3">
+  <a class="nav-item active"> POSTS </a>
+  <a class="nav-item"> MEDIA </a>
+  <a class="nav-item"> LISTS </a>
+</nav>
 
-  <div>
-    <img style="height:200px; width: 100px;" src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" class="img-fluid rounded-start" alt="...">
-    <h5 class="card-title"><a href="/media/{{ movie.id }}">{{ movie.title }}</a></h5>
-    <p class="card-text"><small class="text-muted">{{ movie.release_date }}</small></p>
+<!-- card for movie -->
+<div class="container card">
+  <div class="row p-3">
+
+    <div class="col-3">
+      <img style="height:200px; width: 100px;" src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" class="img-fluid rounded-start" alt="...">    </div>
+
+    <div class="col-9">
+
+      <div class="row">
+        <div class="col-3">
+          <h1>{{media.title}}</h1>
+        </div>
+
+        <h3>{{media.year_created}}</h3>
+        
+      </div>
+
+      <p>{{media.description}}</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- card for review -->
+  <div class="container card">
+    <div class="row p-3">
+
+    <!-- user's profile picture -->
+    <div class="col-3">
+      <img  style="width: 250px;" class="m-auto" src="{{user.avatar_url}}" alt="user profile picture"> 
+    </div>
+
+    <div class="col-9">
+      
+      <h5 class="card-title"><a href="/media/{{ movie.id }}">{{ movie.title }}</a></h5>
+      <p class="card-text"><small class="text-muted">{{ movie.release_date }}</small></p>
+      <div class="row">
+        <div class="col-3">
+          <h2> {{user.username}} </h2>
+        </div>
+
+        <h3>{{review.date}}</h3>
+
+      </div>
+      
+
+      <!-- review -->
+      <p>{{review.description}}</p>
+      <p>likes, comments</p>
+    </div>
+
+    </div>
+
   </div>
 {% endblock %}

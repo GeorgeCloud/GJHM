@@ -1,8 +1,84 @@
+
+<!-- ALL MEDIA, maybe split up into media types -->
 {% extends 'partials/base.html' %}
 
 {% block title %} Media {% endblock %}
 
 {% block content %}
-  <h1>ALL MEDIA, maybe split up into media types</h1>
+  <!-- team's movies -->
+  <div class="container text-center p-3">
+    <h1>Staff's Picks</h1>
+
+    <div class="row">
+      {% for media_item in media[media|length - 4:] %}
+        <div class="container col-3">
+          <a href="{{ media_item.id }}">
+            <img style="height:200px;" src="https://www.themoviedb.org/t/p/w1280/{{ media_item.poster_path }}" alt="movie poster">
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- filter bar -->
+  <div class="container p-3">
+  <h2>All Movies</h2>
+    <!-- genre filter -->
+    <div class="row">
+      <form class="px-3">
+        <label>Genre</label>
+        <select>
+          <option></option>
+          <option>Fantasy</option>
+          <option>Animation</option>
+          <option>Drama</option>
+          <option>Horror</option>
+        </select>
+      </form>
+
+      <!-- another filter -->
+      <form class="px-3">
+        <label>Year</label>
+        <select>
+          <option></option>
+          <option>Fantasy</option>
+          <option>Animation</option>
+          <option>Drama</option>
+          <option>Horror</option>
+        </select>
+      </form>
+    </div>
+  </div>
+
+  {% for media_item in media[:3] %}
+    <div class="container card">
+      <div class="row p-3">
+        <div class="col-3">
+          <a href="{{ media_item.id }}">
+            <img style="height:200px; width: 100px;" src="https://www.themoviedb.org/t/p/w1280/{{ media_item.poster_path }}" class="img-fluid rounded-start" alt="...">
+          </a>
+        </div>
+
+        <div class="col-9">
+          <div class="row">
+            <div class="col-3">
+              <h1>{{ media_item.title }}</h1>
+            </div>
+
+            <h3>{{ media_item.release_date }}</h3>
+          </div>
+
+          <p>{{ media_item.overview[:150] }}</p>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+
+  {% endfor %}
 
 {% endblock %}

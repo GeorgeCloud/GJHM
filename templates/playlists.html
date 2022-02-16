@@ -3,17 +3,24 @@
 {% block title %} {{ user.username }}'s playlist {% endblock %}
 
 {% block content %}
-  <h1>{{ user.username }}'s Playlists</h1>
-
+  <h1 class="text-center">{{ user.username }}'s Playlists</h1>
   {% if session['current_user']['_id'] == user._id %}
     <a href="playlists/new">Create new playlist</a>
   {% endif %}
 
-  {% for playlist in playlists %}
+
+  <div class="container">
+    {% for playlist in playlists %}
+
+
     <ul>
       <li>
         <a href="playlists/{{ playlist._id }}">{{ playlist.title }}</a>
+        <!-- add thumbnail image -->
       </li>
     </ul>
   {% endfor %}
+
+  </div>
+  
 {% endblock %}
