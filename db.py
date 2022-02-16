@@ -4,16 +4,18 @@ from pymongo import MongoClient
 from flask_login import LoginManager, current_user
 from flask_bcrypt import Bcrypt
 from os import environ
+from config import Config
 
 app = Flask(__name__)
+app.config.from_object(Config)
 bcrypt = Bcrypt(app)
 app.secret_key = '##-##<F>Society##-##'
 
 # ======= DB Setup ==========
-CONNECTION_STRING = 'mongodb+srv://GJHM:Gjhm111!@cluster0.bfwfn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-client = pymongo.MongoClient(CONNECTION_STRING)
-# uri = environ.get('MONGODB_URI', 'mongodb://localhost:27017/gjhm')
-# client = MongoClient(uri)
+# CONNECTION_STRING = 'mongodb+srv://GJHM:Gjhm111!@cluster0.bfwfn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+# client = pymongo.MongoClient(CONNECTION_STRING)
+uri = environ.get('MONGODB_URI', 'mongodb://localhost:27017/gjhm')
+client = MongoClient(uri)
 db = client.get_default_database()
 # ===========================
 
