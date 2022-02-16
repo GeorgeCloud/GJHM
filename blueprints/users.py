@@ -45,7 +45,6 @@ def index_playlists(username):
         # playlist = playlists.find_one({'_id': request.form['playlist_id']})
         media_id = request.form['media_id']
 
-        import pdb;pdb.set_trace()
         # playlist.update_one({'$addToSet': })
 
         playlists.update_one(
