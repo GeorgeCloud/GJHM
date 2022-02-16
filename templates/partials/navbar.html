@@ -39,23 +39,6 @@
       <li class="nav-item">
         <a class="nav-link" href="/reviews">Reviews</a>
       </li>
-
-
-      <!-- <li class="nav-item dropdown">
-      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-      </a>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Action</a>
-          <a class="dropdown-item" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-
-      </li>
-      <li class="nav-item">
-      <a class="nav-link disabled" href="#">Disabled</a>
-      </li> -->
     </ul>
     <!-- ONLY THING I NEED FOR THE NAVBAR!!! -->
     {% if session['current_user'] %}
@@ -74,7 +57,7 @@
         <a class="nav-link" href="/login">Login</a>
       </li>
       {% else %}
-      <li>{{ session['current_user']['username'] }}</li>
+      <li class="px-2"> {{ session['current_user']['username'] }}</li>
       <li>
         <form action="/logout" method="POST">
           <button type="submit" class="btn btn-outline-secondary">Logout</button>

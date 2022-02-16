@@ -3,9 +3,9 @@
 {% block title %} New User {% endblock %}
 
 {% block content %}
-  <!-- <h1>NEW Pl</h1> -->
 
-  <form action="/users/{{ username }}/playlists/create" method="POST">
+  <form action="/users/{{ username }}/playlists/create" method="POST" class="container">
     {% include 'partials/playlist_form.html' %}
+    <input type="submit" class="m-3">
   </form>
 {% endblock %}
