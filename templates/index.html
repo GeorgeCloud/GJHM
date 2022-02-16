@@ -63,7 +63,26 @@
     </div>
 
     <div class="col-6">
-      <h2> posts go here (later) </h2>
+      <div class="row">
+        <div class="col-4">
+          <h4>Media Trending Today</h4>
+          {% for media in trending_media %}
+            <p>{{ media.original_title }}</p>
+          {% endfor %}
+        </div>
+        <div class="col-4">
+          <h4>Popular Movies</h4>
+          {% for movie in popular_movies %}
+            <p>{{ movie.original_title }}</p>
+          {% endfor %}
+        </div>
+        <div class="col-4">
+          <h4>Popular Tv Shows</h4>
+          {% for show in popular_tvshows %}
+            <p>{{ show.original_name }}</p>
+          {% endfor %}
+        </div>
+      </div>
       <!-- action: watched, review, whatever -->
       <!-- movie: movie selected -->
     </div>

@@ -14,9 +14,13 @@ api_search = tmdb.Search()
 
 @app.route('/', methods=['GET'])
 def homepage():
-    popular_media = tmdb.Movies().popular()['results']
-    print(popular_media)
-    return render_template('index.html')
+    trending_media = tmdb.Trending(media_type='movie', time_window='day')
+    # print(trending_media.info()['results'])
+    popular_movies = tmdb.Discover().movie(with_region='us', language='en', page=1)
+    popular_tvshows = tmdb.Discover().tv(with_region='us', language='en', page=1)
+
+    print(popular_tvshows['results'])
+    return render_template('index.html', trending_media=trending_media.info()['results'], popular_movies=popular_movies['results'], popular_tvshows=popular_tvshows['results'])
 
 
 if __name__ == '__main__':
