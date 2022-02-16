@@ -12,39 +12,42 @@
 <!-- main playlist card -->
 <div class="container card p-3">
   <!-- playlist info -->
-{#  <h5>Listed by {{user.username}}</h5>#}
-{#  <h1>{{playlist.title}}</h1>#}
-  <p>playlist description</p>
+  <h5>Listed by {{user.username}}</h5>
+  <h1>{{playlist.title}}</h1>
+  <p>{{ playlist.description }}</p>
 
-  <!-- for movie in playlists -->
-  <div class="container card">
+  {% if media %}
+    {% for media_item in media %}
+      <div class="container card">
+        <div class="row p-3">
+          <div class="col-3 p-3">
+            <img style="height: 200px;" class="m-auto" src="https://www.themoviedb.org/t/p/w1280/{{media_item.poster_path}}" alt="movie poster">
+          </div>
 
-    <div class="row p-3">
-
-      <div class="col-3 p-3">
-{#        <img style="width: 200px;" class="m-auto" src="{{media.url}}" alt="movie poster">#}
-      </div>
-
-      <div class="col-9">
-        <div class="col-3">
-{#          <h3>{{media.title}}</h3>#}
+          <div class="col-9">
+            <h3>{{media_item.title}}</h3>
+            <p>{{ media_item.overview[:150] }}</p>
+            <p>{{media_item.release_date}}</p>
+          </div>
         </div>
-
-{#        <p>{{media.year_created}}</p>#}
       </div>
-
+    {% endfor %}
+  {% else %}
+    <div class="container card">
+      <div class="row p-3">
+        <p>New media in playlist yet. Go add some!</p>
+      </div>
     </div>
-
-  </div>
+  {% endif %}
 
 </div>
   
-<ul>
-  {% for item in media %}
-    <li>{{ item.title }}</li>
-    <li>{{ item }}</li>
-  {% endfor %}
-</ul>
+{#<ul>#}
+{#  {% for item in media %}#}
+{#    <li>{{ item.title }}</li>#}
+{#    <li>{{ item }}</li>#}
+{#  {% endfor %}#}
+{#</ul>#}
 
 {% endblock %}
   

@@ -54,19 +54,15 @@ def create_movie(user_id):
 def search_media():
     if request.method == 'GET':
         return render_template('media_search.html')
+    else:
+        search_query = request.form['search_query']
+        all_media = api_search.multi(query=search_query)['results'][:3]
+        user_playlists = None
 
-    search_query = request.form["search_query"]
-    all_media = api_search.multi(query=search_query)['results'][:3]
-    user_playlists = None
-
-    for idx, media_item in enumerate(all_media):
         if is_authenticated():
             user_playlists = playlists.find({'user_id': session['current_user']['_id']})
-            media_item['playlist_id'] = user_playlists[idx]['_id']
-        # media_item['rating'] = user_playlists[idx]['rating']
 
-    return render_template('media_search.html',
-                           search_query=search_query, media=all_media, playlists=list(user_playlists))
+        return render_template('media_search.html', media=all_media, playlists=list(user_playlists))
 
 
 @media_bp.route('/<media_id>', methods=['GET'])
