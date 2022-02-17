@@ -10,6 +10,7 @@ users_bp = Blueprint('users_bp', __name__, template_folder='templates')
 def index_users():
     return render_template('users.html', users=users.find({}))
 
+
 @users_bp.route('/<username>', methods=['GET'])
 def view_user(username):
     user = users.find_one({'username': username})
@@ -49,7 +50,7 @@ def create_playlist(username):
         }
 
         playlist_id = playlists.insert_one(playlist).inserted_id
-        return redirect(url_for('users_bp.view_playlist', username=username, playlist_id=playlist_id))
+        return redirect(url_for('users_bp.view_single_playlist', username=username, playlist_id=playlist_id))
 
 @users_bp.route('<username>/playlists', methods=['GET'])
 def view_user_playlists(username):
@@ -57,6 +58,19 @@ def view_user_playlists(username):
 
     user_playlists = playlists.find({'user_id': user['_id']})
     return render_template('playlists.html', user=user, playlists=user_playlists)
+
+@app.route('/playlists/<playlist_id>', methods=['GET'])
+@users_bp.route('/<username>/playlists/<playlist_id>', methods=['GET'])
+def view_single_playlist(playlist_id, username=None):
+    if not username:
+        # get username from playlist
+        pass
+
+    user = users.find_one({'username': username})
+    playlist = playlists.find_one({'_id': playlist_id})
+    playlist_media = [find_movie(media_id) for media_id in playlist['media_ids']]
+
+    return render_template('playlists_show.html', user=user, playlist=playlist, media_result=playlist_media)  #, playlists=user_playlists
 
 @users_bp.route('<username>/playlists', methods=['POST'])
 def update_playlist(username):
@@ -71,14 +85,3 @@ def update_playlist(username):
 
         flash('Successfully added to playlist.')
         return redirect(request.referrer)
-
-@users_bp.route('/<username>/playlists/<playlist_id>', methods=['GET'])
-def view_playlist(username, playlist_id):
-    user = users.find_one({'username': username})
-    if not user:
-        return 'User not found'
-
-    playlist = playlists.find_one({'_id': playlist_id})
-    playlist_media = [find_movie(media_id) for media_id in playlist['media_ids']]
-
-    return render_template('playlists_show.html', user=user, playlist=playlist, media=playlist_media)  #, playlists=user_playlists

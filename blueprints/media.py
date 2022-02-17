@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from extensions import is_authenticated, user_playlists
-from flask_login import login_required
+from extensions import is_authenticated, user_playlists, login_required
 from datetime import datetime
-from bson.objectid import ObjectId
 import tmdbsimple as tmdb
 from db import *
 import uuid
@@ -16,11 +14,17 @@ def index_media():
     popular_media = tmdb.Movies().popular()['results']
     return render_template('media_index.html', media=popular_media)
 
+@media_bp.route('/reviews', methods=['GET'])
+def index_reviews():
+    """Return ALL reviews"""
+    all_reviews = reviews.find({})
+    return render_template('reviews_index.html', reviews=all_reviews)
+
 @media_bp.route('/create', methods=['POST'])
 @login_required
 def new_movie(user_id):
     """Creates new media to db"""
-    user = users.find_one({'_id': ObjectId(user_id)})
+    user = users.find_one({'_id': user_id})
     media_type = request.form['type']
     media_item = {
         'type':            media_type,
@@ -75,16 +79,22 @@ def search_media():
         return render_template('media_search.html')
 
     search_query = request.form['search_query']
-    all_media = api_search.multi(query=search_query)['results'][:3]
+    #
+    # m_result =
+    # u_result =
+    # p_result =
     user_lists = None
 
     if is_authenticated():
-        user_lists = user_playlists(session['current_user']['_id'])
+        user_lists = list(user_playlists(session['current_user']['_id']))
 
     return render_template('media_search.html',
-                           search_query=search_query,
-                           media=all_media,
-                           playlists=list(user_lists) if user_lists else None)
+                           search_query    = search_query,
+                           media_result    = api_search.multi(query=search_query)['results'][:3],
+                           user_result     = users.find({'username': search_query})[:3],
+                           playlist_result = playlists.find({'title': search_query})[:3],
+                           user_playlists  = user_lists if user_lists else None
+                           )
 
 @media_bp.route('/<media_id>/reviews', methods=['GET'])
 def show_media(media_id):
@@ -98,5 +108,3 @@ def delete_review(media_id, review_id):
     reviews.delete_one({'_id': review_id})
     flash('Successfully Deleted Review.')
     return redirect(url_for('media_bp.show_media', media_id=media_id))
-
-    

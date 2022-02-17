@@ -3,51 +3,15 @@
 
 {% block content %}
 <!-- placeholder nav -->
-<nav class="navbar profile-nav mb-3">
+<!-- <nav class="navbar profile-nav mb-3">
   <a class="nav-item active"> POSTS </a>
   <a class="nav-item"> MEDIA </a>
   <a class="nav-item"> LISTS </a>
-</nav>
+</nav> -->
 
 <!-- main playlist card -->
 <div class="container card p-3">
-  <!-- playlist info -->
-  <h5>Listed by {{user.username}}</h5>
-  <h1>{{playlist.title}}</h1>
-  <p>{{ playlist.description }}</p>
-
-  {% if media %}
-    {% for media_item in media %}
-      <div class="container card">
-        <div class="row p-3">
-          <div class="col-3 p-3">
-            <img style="height: 200px;" class="m-auto" src="https://www.themoviedb.org/t/p/w1280/{{media_item.poster_path}}" alt="movie poster">
-          </div>
-
-          <div class="col-9">
-            <h3>{{media_item.title}}</h3>
-            <p>{{ media_item.overview[:150] }}</p>
-            <p>{{media_item.release_date}}</p>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  {% else %}
-    <div class="container card">
-      <div class="row p-3">
-        <p>New media in playlist yet. Go add some!</p>
-      </div>
-    </div>
-  {% endif %}
-
+  {% include 'partials/playlist_info.html' %}
 </div>
-  
-{#<ul>#}
-{#  {% for item in media %}#}
-{#    <li>{{ item.title }}</li>#}
-{#    <li>{{ item }}</li>#}
-{#  {% endfor %}#}
-{#</ul>#}
 
 {% endblock %}
-  

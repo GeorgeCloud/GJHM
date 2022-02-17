@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from extensions import is_authenticated
 from datetime import datetime
 from db import users, bcrypt
 import uuid
-from extensions import is_authenticated
+
 
 auth_bp = Blueprint('auth_bp', __name__, template_folder='templates')
 

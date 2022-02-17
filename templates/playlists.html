@@ -11,16 +11,13 @@
 
   <div class="container">
     {% for playlist in playlists %}
-
-
-    <ul>
-      <li>
-        <a href="playlists/{{ playlist._id }}">{{ playlist.title }}</a>
-        <!-- add thumbnail image -->
-      </li>
-    </ul>
-  {% endfor %}
-
+      <ul>
+        <li>
+          <a href="playlists/{{ playlist._id }}">{{ playlist.title }}</a>
+          <!-- add thumbnail image -->
+        </li>
+      </ul>
+    {% endfor %}
   </div>
-  
+
 {% endblock %}
