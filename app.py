@@ -19,6 +19,5 @@ def homepage():
     popular_tvshows = tmdb.Discover().tv(with_region='us', language='en', page=1)
     return render_template('index.html', trending_media=trending_media.info()['results'], popular_movies=popular_movies['results'], popular_tvshows=popular_tvshows['results'])
 
-
 if __name__ == '__main__':
     app.run(port=8001, debug=True)

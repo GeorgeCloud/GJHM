@@ -62,26 +62,110 @@
       <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="" alt="user profile pic">
     </div>
 
+    <!-- Media Carousel -->
     <div class="col-6">
-      <div class="row">
-        <div class="col-4">
-          <h4>Media Trending Today</h4>
-          {% for media in trending_media %}
-            <p>{{ media.original_title }}</p>
+      <p class="text-center">Media Trending Today</p>
+      <div id="trending-carousel" class="carousel slide carousel-multi-item" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active">
+            <div class="row">
+              {% for media in trending_media[0:3] %}
+                <div class="col-md-4">
+                  <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ media.poster_path }}" alt="{{ media.id }}">
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% for media_row in trending_media[3:] | batch(3, '&nbsp;') %}
+            <div class="carousel-item">
+              <div class="row">
+                {% for media in media_row %}
+                  <div class="col-md-4">
+                    <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ media.poster_path }}" alt="{{ media.id }}">
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
           {% endfor %}
         </div>
-        <div class="col-4">
-          <h4>Popular Movies</h4>
-          {% for movie in popular_movies %}
-            <p>{{ movie.original_title }}</p>
+        <a class="carousel-control-prev" href="#trending-carousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#trending-carousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+      <!-- Movie Carousel -->
+      <p class="text-center">Popular Movies</p>
+      <div id="movies-carousel" class="carousel slide carousel-multi-item" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active">
+            <div class="row">
+              {% for movie in popular_movies[0:3] %}
+                <div class="col-md-4">
+                  <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" alt="{{ movie.id }}">
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% for movie_row in popular_movies[3:] | batch(3, '&nbsp;') %}
+            <div class="carousel-item">
+              <div class="row">
+                {% for movie in movie_row %}
+                  <div class="col-md-4">
+                    <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" alt="{{ movie.id }}">
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
           {% endfor %}
         </div>
-        <div class="col-4">
-          <h4>Popular Tv Shows</h4>
-          {% for show in popular_tvshows %}
-            <p>{{ show.original_name }}</p>
+        <a class="carousel-control-prev" href="#movies-carousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#movies-carousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+
+      <!-- Tv Show Carousel -->
+      <p class="text-center">Popular Tv Shows</p>
+      <div id="tvshows-carousel" class="carousel slide carousel-multi-item" data-ride="carousel">
+        <div class="carousel-inner" role="listbox">
+          <div class="carousel-item active">
+            <div class="row">
+              {% for show in popular_tvshows[0:3] %}
+                <div class="col-md-4">
+                  <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ show.poster_path }}" alt="{{ show.id }}">
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% for show_row in popular_tvshows[3:] | batch(3, '&nbsp;') %}
+            <div class="carousel-item">
+              <div class="row">
+                {% for show in show_row %}
+                  <div class="col-md-4">
+                    <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ show.poster_path }}" alt="{{ show.id }}">
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
           {% endfor %}
         </div>
+        <a class="carousel-control-prev" href="#tvshows-carousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#tvshows-carousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
       </div>
       <!-- action: watched, review, whatever -->
       <!-- movie: movie selected -->
