@@ -45,11 +45,11 @@
               {#     Card Body       #}
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title"><a href="/media/review/{{ media_item.id }}">{{ media_item.title }}</a></h5>
+                  <h5 class="card-title"><a href="{{ url_for('media_bp.show_media', media_id=media_item.id) }}">{{ media_item.title }}</a></h5>
                   <p class="card-text">{{ media_item.overview[:150] }}...</p>
                   <p class="card-text"><small class="text-muted">{{ media_item.release_date }}</small></p>
                 {% if 'current_user' in session %}
-                  <form action="{{ url_for('users_bp.index_playlists', username=session['current_user']['username']) }}" method="POST">
+                  <form action="{{ url_for('users_bp.update_playlist', username=session['current_user']['username']) }}" method="POST">
                     <input type="hidden" name="media_id" value="{{ media_item.id }}">
                     <select name="playlist_id">
                       {% for playlist in playlists %}

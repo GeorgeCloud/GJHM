@@ -1,70 +1,80 @@
-
 <!-- shows a single  -->
 {% extends 'partials/base.html' %}
 
-{% block title %} media name {% endblock %}
+{% block title %} {{ media.title }} {% endblock %}
 
 {% block content %}
-<!-- placeholder nav -->
-<nav class="navbar profile-nav mb-3">
-  <a class="nav-item active"> POSTS </a>
-  <a class="nav-item"> MEDIA </a>
-  <a class="nav-item"> LISTS </a>
-</nav>
+  <!-- placeholder nav -->
+  <nav class="navbar profile-nav mb-3">
+    <a class="nav-item active"> POSTS </a>
+    <a class="nav-item"> MEDIA </a>
+    <a class="nav-item"> LISTS </a>
+  </nav>
 
-<!-- card for movie -->
-<div class="container card">
-  <div class="row p-3">
-
-    <div class="col-3">
-      <img style="height:200px; width: 100px;" src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" class="img-fluid rounded-start" alt="...">    </div>
-
-    <div class="col-9">
-
-      <div class="row">
-        <div class="col-3">
-          <h1>{{media.title}}</h1>
-        </div>
-
-        <h3>{{media.year_created}}</h3>
-        
-      </div>
-
-      <p>{{media.description}}</p>
-    </div>
-
-  </div>
-</div>
-
-<!-- card for review -->
+  <!-- card for movie -->
   <div class="container card">
     <div class="row p-3">
 
-    <!-- user's profile picture -->
-    <div class="col-3">
-      <img  style="width: 250px;" class="m-auto" src="{{user.avatar_url}}" alt="user profile picture"> 
-    </div>
+      <div class="col-3">
+        <img style="height:200px; width: 150px;" src="https://www.themoviedb.org/t/p/w1280/{{ media.poster_path }}" class="img-fluid rounded-start" alt="...">
+      </div>
 
-    <div class="col-9">
-      
-      <h5 class="card-title"><a href="/media/{{ movie.id }}">{{ movie.title }}</a></h5>
-      <p class="card-text"><small class="text-muted">{{ movie.release_date }}</small></p>
-      <div class="row">
-        <div class="col-3">
-          <h2> {{user.username}} </h2>
+      <div class="col-9">
+        <div class="row">
+          <div class="col-6">
+            <h1>{{media.title}}</h1>
+          </div>
+          <div class="col-3">
+              <h3>{{media.release_date}}</h3>
+          </div>
         </div>
 
-        <h3>{{review.date}}</h3>
-
+        <p>{{media.overview[:150]}}...</p>
       </div>
-      
-
-      <!-- review -->
-      <p>{{review.description}}</p>
-      <p>likes, comments</p>
     </div>
-
-    </div>
-
   </div>
+
+  {% if 'current_user' in session %}
+    <div class="container card">
+      <form method="POST">
+        <input type="hidden" name="user_id" value="{{ session['current_user']['_id'] }}">
+        {% include 'partials/review_form.html' %}
+      </form>
+    </div>
+  {% endif %}
+
+  <!-- card for review -->
+  {% for review in reviews %}
+    <div class="container card">
+      <div class="row p-3">
+        {% set user = users.find_one({'_id': review.user_id}) %}
+        <!-- user's profile picture -->
+        <div class="col-3">
+          <img style="width: 100px;" class="m-auto" src="{{ url_for('static', filename='images/icon.png')}}" alt="user profile picture">
+          <p>{{ user.username }}</p>
+        </div>
+
+        <div class="col-3">
+          <h3>{{ review.title }}</h3>
+
+          <p>Rating: {{ review.rating }}</p>
+          <p>{{ review.description }}</p>
+          <p class="card-text"><small class="text-muted"> {{ review.created_on }}</small></p>
+          <p>0 likes, 0 comments</p>
+        </div>
+
+          <div class="col-6">
+            <div class="row">
+              <form action="" method="" class="ml-auto">
+                <button type="submit" class="btn btn-warning ml-auto">Edit</button>
+              </form>
+
+              <form action="reviews/{{ review._id }}/delete" method="POST" class="ml-1">
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+  {% endfor %}
 {% endblock %}
