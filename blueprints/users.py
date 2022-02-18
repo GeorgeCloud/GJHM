@@ -93,7 +93,7 @@ def update_playlist(username):
         )
 
         flash('Successfully added to playlist.')
-        return redirect(request.referrer)
+    return redirect(request.referrer)
 
 
 @users_bp.route('/<username>/playlists/<playlist_id>', methods=['GET'])

@@ -23,6 +23,5 @@ def homepage():
         popular_tvshows=popular_tvshows, current_user=current_user())
 
 
-
 if __name__ == '__main__':
     app.run(port=8001, debug=True)
