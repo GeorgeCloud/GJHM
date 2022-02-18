@@ -98,7 +98,10 @@ def search_media():
 
 @media_bp.route('/<media_id>/reviews', methods=['GET'])
 def show_media(media_id):
-    single_media = tmdb.Movies(media_id).info()
+    movie = tmdb.Movies(media_id)
+    single_media = movie.info()
+    if movie.videos()['results']:
+        single_media['youtube_key'] = movie.videos()['results'][0]['key']
     media_reviews = reviews.find({'media_id': media_id})
 
     return render_template('media_show.html', media=single_media, reviews=media_reviews, users=users)
