@@ -26,7 +26,7 @@ def edit_user(username):
     """ Edit and Update Route """
     pass
 
-@users_bp.route('<username>/delete', methods=['GET', 'POST'])
+@users_bp.route('<username>/delete', methods=['POST'])
 @login_required
 def delete_user(username):
     if current_user_is(username):
@@ -96,7 +96,7 @@ def update_playlist(username):
     return redirect(request.referrer)
 
 
-@users_bp.route('/<username>/playlists/<playlist_id>', methods=['GET'])
+@users_bp.route('/<username>/playlists/<playlist_id>', methods=['POST'])
 @login_required
 def delete_playlist(username, playlist_id):
     if current_user_is(username):
