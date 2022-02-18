@@ -18,7 +18,7 @@ def view_user(username):
     if not user:
         return 'User not found'
 
-    user_playlists = playlists.find({'user_id': user['_id']})
+    user_playlists = user_playlists(user['_id'])
     return render_template('users_show.html', user=user, playlists=user_playlists)
 
 @users_bp.route('<username>/edit', methods=['GET', 'POST'])

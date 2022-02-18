@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from extensions import is_authenticated, login_required, logged_out_required
+from extensions import is_authenticated, login_required, logged_out_required, find_user
 from datetime import datetime
 from db import users, bcrypt
 import uuid
@@ -33,7 +33,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = users.find_one({'username': username})
+        user = find_user(username)
 
         # Create form validator
         if user and bcrypt.check_password_hash(user['password'], password):
