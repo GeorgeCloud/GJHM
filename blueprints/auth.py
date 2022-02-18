@@ -4,9 +4,7 @@ from datetime import datetime
 from db import users, bcrypt
 import uuid
 
-
 auth_bp = Blueprint('auth_bp', __name__, template_folder='templates')
-
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
 @logged_out_required
@@ -29,12 +27,9 @@ def signup():
             return redirect(url_for('auth_bp.login'))
     return render_template('signup.html')
 
-
 @auth_bp.route('/login', methods=['GET', 'POST'])
 @logged_out_required
 def login():
-    # if is_authenticated():
-        # return redirect(url_for('homepage'))
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
@@ -47,7 +42,6 @@ def login():
             flash('Logged In')
             return redirect(url_for('homepage'))
     return render_template('login.html')
-
 
 @auth_bp.route('/logout', methods=['POST'])
 @login_required

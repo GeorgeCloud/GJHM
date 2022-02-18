@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, flash
-from extensions import is_authenticated, user_playlists, login_required
+from extensions import is_authenticated, user_playlists, login_required, find_user, current_user
 from datetime import datetime
 import tmdbsimple as tmdb
 from db import *
@@ -24,7 +24,7 @@ def index_reviews():
 @login_required
 def new_movie(user_id):
     """Creates new media to db"""
-    user = users.find_one({'_id': user_id})
+    user = find_user(user_id=user_id)
     media_type = request.form['type']
     media_item = {
         'type':            media_type,
@@ -79,31 +79,32 @@ def search_media():
         return render_template('media_search.html')
 
     search_query = request.form['search_query']
-    #
-    # m_result =
-    # u_result =
-    # p_result =
-    user_lists = None
+                                                                    # Find First 3 of:
+    m_result = api_search.multi(query=search_query)['results'][:3]  # movies/shows where [title] = search_query
+    u_result = users.find({'username': search_query})[:3]           # users where    [username] = search_query
+    p_result = playlists.find({'title': search_query})[:3]          # playlists where  [title] = search_query
 
-    if is_authenticated():
-        user_lists = list(user_playlists(session['current_user']['_id']))
+    curr_user = current_user()
+    user_lists = list(user_playlists(curr_user['_id'])) if curr_user else None
 
     return render_template('media_search.html',
                            search_query    = search_query,
-                           media_result    = api_search.multi(query=search_query)['results'][:3],
-                           user_result     = users.find({'username': search_query})[:3],
-                           playlist_result = playlists.find({'title': search_query})[:3],
-                           user_playlists  = user_lists if user_lists else None
+                           media_result    = m_result,
+                           user_result     = u_result,
+                           playlist_result = p_result,
+                           user_playlists  = user_lists
                            )
 
 @media_bp.route('/<media_id>/reviews', methods=['GET'])
 def show_media(media_id):
     movie = tmdb.Movies(media_id)
     single_media = movie.info()
+
+    # If movie has a trailer add it to the media_result
     if movie.videos()['results']:
         single_media['youtube_key'] = movie.videos()['results'][0]['key']
-    media_reviews = reviews.find({'media_id': media_id})
 
+    media_reviews = reviews.find({'media_id': media_id})
     return render_template('media_show.html', media=single_media, reviews=media_reviews, users=users)
 
 @media_bp.route('/<media_id>/reviews/<review_id>/delete', methods=['POST'])

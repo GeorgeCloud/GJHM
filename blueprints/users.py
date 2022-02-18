@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, session, flash
-from extensions import find_movie, is_publisher, login_required
+from extensions import find_movie, is_publisher, login_required, find_user, user_playlists
 from datetime import datetime
 from db import *
 import uuid
@@ -13,7 +13,8 @@ def index_users():
 
 @users_bp.route('/<username>', methods=['GET'])
 def view_user(username):
-    user = users.find_one({'username': username})
+    user = find_user(username)
+
     if not user:
         return 'User not found'
 
@@ -57,20 +58,21 @@ def create_playlist(username):
 
 @users_bp.route('<username>/playlists', methods=['GET'])
 def view_user_playlists(username):
-    user = users.find_one({'username': username})
+    user = find_user(username)
+    users_plist = user_playlists(user['_id'])
 
-    user_playlists = playlists.find({'user_id': user['_id']})
-    return render_template('playlists.html', user=user, playlists=user_playlists)
+    return render_template('playlists.html', user=user, playlists=users_plist)
 
 @app.route('/playlists/<playlist_id>', methods=['GET'])
 @users_bp.route('/<username>/playlists/<playlist_id>', methods=['GET'])
 def view_single_playlist(playlist_id, username=None):
-    if not username:
-        # get username from playlist
-        pass
-
-    user = users.find_one({'username': username})
     playlist = playlists.find_one({'_id': playlist_id})
+
+    if username:
+        user = find_user(username)
+    else:
+        user = find_user(user_id=playlist['user_id'])
+
     playlist_media = [find_movie(media_id) for media_id in playlist['media_ids']]
 
     return render_template('playlists_show.html', user=user, playlist=playlist, media_result=playlist_media)  #, playlists=user_playlists

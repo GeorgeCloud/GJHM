@@ -1,10 +1,17 @@
 from flask import session, redirect, url_for
 from functools import wraps
 import tmdbsimple as tmdb
-from db import playlists
+from db import playlists, users
 
 def current_user():
     return session.get('current_user')
+
+def find_user(username=None, user_id=None):
+    """ movie_id is from tmdb's API """
+    if username:
+        return users.find_one({'username': username})
+
+    return users.find_one({'_id': user_id})
 
 def find_movie(movie_id):
     """ movie_id is from tmdb's API """
