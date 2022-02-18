@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, session, flash
-from extensions import find_movie, is_publisher, login_required, find_user, user_playlists
+from extensions import find_movie, current_user_is, login_required, find_user, user_playlists
 from datetime import datetime
 from db import *
 import uuid
@@ -26,11 +26,18 @@ def edit_user(username):
     """ Edit and Update Route """
     pass
 
-@users_bp.route('<username>/delete', methods=['POST'])
+@users_bp.route('<username>/delete', methods=['GET', 'POST'])
 @login_required
 def delete_user(username):
-    users.find_one_and_delete({'username': username})
-    return 'user deleted'
+    if current_user_is(username):
+        session.clear()
+        users.find_one_and_delete({'username': username})
+        flash('Successfully Deleted Account.')
+    else:
+        flash('You are not the owner of this account')
+
+    return redirect(url_for('homepage'))
+
 
 @users_bp.route('<username>/playlists/new', methods=['GET'])
 @login_required
@@ -67,20 +74,16 @@ def view_user_playlists(username):
 @users_bp.route('/<username>/playlists/<playlist_id>', methods=['GET'])
 def view_single_playlist(playlist_id, username=None):
     playlist = playlists.find_one({'_id': playlist_id})
+    user = find_user(username, user_id=playlist['user_id'])
 
-    if username:
-        user = find_user(username)
-    else:
-        user = find_user(user_id=playlist['user_id'])
+    plist_media = [find_movie(media_id) for media_id in playlist['media_ids']]  # return list of movie/tvshows from user's playlist
 
-    playlist_media = [find_movie(media_id) for media_id in playlist['media_ids']]
-
-    return render_template('playlists_show.html', user=user, playlist=playlist, media_result=playlist_media)  #, playlists=user_playlists
+    return render_template('playlists_show.html', user=user, playlist=playlist, media_result=plist_media)
 
 @users_bp.route('<username>/playlists', methods=['POST'])
 @login_required
 def update_playlist(username):
-    if is_publisher(username):
+    if current_user_is(username):
         media_id = request.form['media_id']
         playlist_id = request.form['playlist_id']
 
@@ -91,3 +94,15 @@ def update_playlist(username):
 
         flash('Successfully added to playlist.')
         return redirect(request.referrer)
+
+
+@users_bp.route('/<username>/playlists/<playlist_id>', methods=['GET'])
+@login_required
+def delete_playlist(username, playlist_id):
+    if current_user_is(username):
+        playlists.find_one_and_delete({'_id': playlist_id})
+        flash('Successfully Deleted Playlist.')
+    else:
+        flash('You are not the owner of this playlist')
+
+    return redirect(url_for('homepage'))

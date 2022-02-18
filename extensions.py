@@ -25,7 +25,7 @@ def is_authenticated():
     """ Validates if current user is authenticated """
     return True if session.get('current_user') else False
 
-def is_publisher(username):
+def current_user_is(username):
     """ Checks if current_user is the passed in username """
     return session['current_user']['username'] == username
 
