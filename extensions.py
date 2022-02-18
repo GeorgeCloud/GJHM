@@ -3,6 +3,9 @@ from functools import wraps
 import tmdbsimple as tmdb
 from db import playlists
 
+def current_user():
+    return session.get('current_user')
+
 def find_movie(movie_id):
     """ movie_id is from tmdb's API """
     return tmdb.Movies(movie_id).info()
@@ -23,6 +26,14 @@ def login_required(function):
     @wraps(function)
     def wrap(*func, **params):
         if session.get('current_user'):
+            return function(*func, **params)
+        return redirect(url_for('homepage'))
+    return wrap
+
+def logged_out_required(function):
+    @wraps(function)
+    def wrap(*func, **params):
+        if not session.get('current_user'):
             return function(*func, **params)
         return redirect(url_for('homepage'))
     return wrap

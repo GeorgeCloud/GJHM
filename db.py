@@ -1,6 +1,6 @@
 from flask import Flask
 from pymongo import MongoClient
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from os import environ
 from config import Config

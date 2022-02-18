@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, session, flash
-from extensions import find_movie, is_publisher
+from extensions import find_movie, is_publisher, login_required
 from datetime import datetime
 from db import *
 import uuid
@@ -26,15 +26,18 @@ def edit_user(username):
     pass
 
 @users_bp.route('<username>/delete', methods=['POST'])
+@login_required
 def delete_user(username):
     users.find_one_and_delete({'username': username})
     return 'user deleted'
 
 @users_bp.route('<username>/playlists/new', methods=['GET'])
+@login_required
 def new_playlist(username):
     return render_template('playlists_new.html', username=username)
 
 @users_bp.route('<username>/playlists/create', methods=['POST'])
+@login_required
 def create_playlist(username):
     if session['current_user']['username'] == username:
         time_created_on = datetime.now()
@@ -73,6 +76,7 @@ def view_single_playlist(playlist_id, username=None):
     return render_template('playlists_show.html', user=user, playlist=playlist, media_result=playlist_media)  #, playlists=user_playlists
 
 @users_bp.route('<username>/playlists', methods=['POST'])
+@login_required
 def update_playlist(username):
     if is_publisher(username):
         media_id = request.form['media_id']

@@ -1,5 +1,5 @@
 from flask import render_template, request, session
-from extensions import is_authenticated
+from extensions import is_authenticated, current_user
 from blueprints.users import users_bp
 from blueprints.media import media_bp
 from blueprints.auth import auth_bp
@@ -14,10 +14,15 @@ api_search = tmdb.Search()
 
 @app.route('/', methods=['GET'])
 def homepage():
-    trending_media = tmdb.Trending(media_type='movie', time_window='day')
-    popular_movies = tmdb.Discover().movie(with_region='us', language='en', page=1)
-    popular_tvshows = tmdb.Discover().tv(with_region='us', language='en', page=1)
-    return render_template('index.html', trending_media=trending_media.info()['results'], popular_movies=popular_movies['results'], popular_tvshows=popular_tvshows['results'])
+    trending_media = tmdb.Trending().info()['results']
+    popular_movies = tmdb.Discover().movie()['results']
+    popular_tvshows = tmdb.Discover().tv()['results']
+
+    return render_template('index.html',
+        trending_media=trending_media, popular_movies=popular_movies,
+        popular_tvshows=popular_tvshows, current_user=current_user())
+
+
 
 if __name__ == '__main__':
     app.run(port=8001, debug=True)

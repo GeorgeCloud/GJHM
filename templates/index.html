@@ -19,7 +19,9 @@
         <div class="card-img-overlay text-center text-light">
           <h5 class="card-title">Home Page</h5>
           <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <button>Sign Up</button>
+          {% if not current_user %}
+            <button>Sign Up</button>
+          {% endif %}
         </div>
       </div>
 
@@ -28,7 +30,9 @@
         <div class="card-img-overlay text-center text-light">
           <h5 class="card-title">Home Page</h5>
           <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <button>Sign Up</button>
+          {% if not current_user %}
+            <button>Sign Up</button>
+          {% endif %}
         </div>
       </div>
 
@@ -37,7 +41,9 @@
         <div class="card-img-overlay text-center text-light">
           <h5 class="card-title">Home Page</h5>
           <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <button>Sign Up</button>
+          {% if not current_user %}
+            <button>Sign Up</button>
+          {% endif %}
         </div>
       </div>
 
