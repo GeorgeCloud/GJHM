@@ -14,7 +14,8 @@ api_search = tmdb.Search()
 
 @app.route('/', methods=['GET'])
 def homepage():
-    return render_template('index.html')
+    popular_media = tmdb.Movies().popular()['results']
+    return render_template('index.html', media=popular_media)
 
 
 if __name__ == '__main__':

@@ -4,7 +4,7 @@
 {% block title %} {{ user.username }} | Profile {% endblock %}
 
 {% block content %}
-  <h1>{{ user.username }}'s Profile</h1>
+  <h1 class="text-center">{{ user.username }}'s Profile</h1>
 
 <!-- user profile card -->
   <div class="container card">
@@ -19,14 +19,11 @@
         <!-- user information  -->
         <div class="col-9">
             <h1>{{ user.full_name.capitalize() }}</h1><br>
-            <p>user bio</p> <br>
+            <!-- <p>user bio</p> <br> -->
             <p>{{ user.email }}</p> <br>
             <p>{{ user.created_on.strftime('%b %Y') }}</p> <br> 
-        </div>
-
-        <!-- follow button -->
-        <div class="row p-3">
             <button>Follow</button>
+
         </div>
 
         <!-- todo: user followers and following -->
@@ -35,12 +32,11 @@
     </div>
 
      <!-- PROFILE NAV -->
-    <div class= "container card">
-      <nav class="navbar profile-nav">
-          <a class="nav-item active"> POSTS </a>
-          <a class="nav-item"> MEDIA </a>
-          <a class="nav-item" href="{{ user.username }}/playlists"> LISTS </a>
-      </nav>
+    <div class= "container">
+      <div class="text-center row profile-nav">
+        <a class="nav-item col-6" href="{{ user.username }}/playlists"> LISTS </a>
+        <a class="nav-item col-6"> Reviews </a>
+      </div>
       <!-- TODO: link to routes -->
   </div>
 
@@ -55,21 +51,17 @@
       </div>
 
       <div class="col-6">
-        <h2> {{ user.full_name.capitalize() }} ACTION MOVIE</h2>
+        <h2> {{ user.full_name.capitalize() }} </h2>
         <!-- action: watched, review, whatever -->
         <!-- movie: movie selected -->
       </div>
 
       <div class="col-3">
         <!-- movie poster url  -->
-        <img style="height:200px;" src="https://m.media-amazon.com/images/I/71BPuv+iRbL._AC_SY741_.jpg">
+        <img style="height:200px;" src="">
       </div>
     </div>
 </div>
 
-  <!-- <p>{{ user.first_name }}</p>
-  <p>{{ user.last_name }}</p>
-  <p>{{ user.email }}</p>
-  <p>{{ user.created_on }}</p> -->
 
 {% endblock %}

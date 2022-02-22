@@ -67,7 +67,7 @@ def search_media():
 
 @media_bp.route('/<media_id>', methods=['GET'])
 def show_media():
-    pass
+    return render_template('media_show.html', )
 
 @media_bp.route('/<media_id>/<review_id>', methods=['GET'])
 def show_review(media_id, review_id):

@@ -1,0 +1,27 @@
+body{
+    background-color: rgba(47, 62, 70, 1);
+    color: rgba(202, 210, 197, 1);
+
+}
+
+nav {
+    background-color:rgba(202, 210, 197, 1);
+    color: rgba(82, 121, 111, 1);
+}
+.nav-link {
+    color: rgba(82, 121, 111, 1);
+}
+
+.srch-btn {
+    color: rgba(82, 121, 111, 1);
+}
+
+.srch-btn:hover {
+    background-color: rgba(82, 121, 111, 1);
+    color: rgba(202, 210, 197, 1);
+}
+
+.card {
+    background-color: rgba(47, 62, 70, 1);
+    color: rgba(202, 210, 197, 1);
+}
