@@ -1,8 +1,8 @@
 body{
     background-color: rgba(47, 62, 70, 1);
     color: rgba(202, 210, 197, 1);
-
 }
+
 
 nav {
     background-color:rgba(202, 210, 197, 1);
@@ -10,6 +10,12 @@ nav {
 }
 .nav-link {
     color: rgba(82, 121, 111, 1);
+}
+
+.nav-link:hover {
+    background-color: rgba(82, 121, 111, 1);
+    color: rgba(202, 210, 197, 1);
+    border-radius: 20px;
 }
 
 .srch-btn {
@@ -24,4 +30,7 @@ nav {
 .card {
     background-color: rgba(47, 62, 70, 1);
     color: rgba(202, 210, 197, 1);
+    border-left: none;
+    border-right: none;
+    border-color: rgba(64, 84, 95, 1);
 }
