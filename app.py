@@ -9,7 +9,7 @@ app.register_blueprint(media_bp, url_prefix='/media')
 
 @app.route('/', methods=['GET'])
 def index():
-    return render_template('users_new.html')
+    return render_template('sign_in.html')
 
 if __name__ == '__main__':
     app.run(port=8001, debug=True)
