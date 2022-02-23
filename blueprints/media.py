@@ -80,16 +80,25 @@ def search_media():
 
     search_query = request.form['search_query']
                                                                     # Find First 3 of:
-    m_result = api_search.multi(query=search_query)['results'][:3]  # movies/shows where [title] = search_query
+    m_result = api_search.multi(query=search_query)  # movies/shows where [title] = search_query
     u_result = users.find({'username': search_query})[:3]           # users where    [username] = search_query
     p_result = playlists.find({'title': search_query})[:3]          # playlists where  [title] = search_query
 
     curr_user = current_user()
     user_lists = list(user_playlists(curr_user['_id'])) if curr_user else None
 
+    m_results_redo = []
+    for i in range(0, len(m_result)):
+        if 'known_for' in m_result['results'][i]:
+            for dict in m_result['results'][i]['known_for']:
+                m_results_redo.append(dict)
+                
+    for u in u_result:
+        print(u)
+
     return render_template('media_search.html',
                            search_query    = search_query,
-                           media_result    = m_result,
+                           media_result    = m_results_redo,
                            user_result     = u_result,
                            playlist_result = p_result,
                            user_playlists  = user_lists

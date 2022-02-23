@@ -22,6 +22,7 @@ users.create_index('username', unique=True)
 playlists = db.playlists
 media = db.media
 reviews = db.reviews
+friend_requests = db.friend_requests
 # =========================
 
 

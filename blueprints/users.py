@@ -110,6 +110,24 @@ def delete_playlist(username, playlist_id):
 """FRIENDS"""
 """Should these be separate database of friends that we match to username or should this be dict inside user dict"""
 """Should we do following/followers functionality or if request is accepted users are appended to both users' dicts"""
+"""Invitation = friend request new db matched by username"""
+"""{
+     sender_id
+     reciever_id
+     date
+}"""
+"""If accepted, add to array delete if deny"""
+@users_bp.route('/<user_id>/request-friend/<friend_id>', methods=['POST'])
+def new_invitation(user_id, friend_id):
+    
+    """Request another user as a friend"""
+    """Will post current user's username to requested user's friend request dict"""
+    """Will we need to grab both current username and requested username in URL?"""
+    """To take away request functionality/button after request is sent look for request in each user's dictionaries?"""
+    """Or add attribute/dict to user's that include requested friends"""
+    """Need to make a way if username=username do not add request button (so users can't request themselves as friends)"""
+    pass
+
 
 @users_bp.route('/<username>/friends', methods=['GET'])
 def view_friends(username):
@@ -125,16 +143,6 @@ def delete_friend(username):
     """Remove logged in user's friend"""
     """Can only be done by matching user/if logged in"""
     """Removed friend from user's friend dict"""
-    pass
-
-@users_bp.route('/<username>/request-friend', methods=['POST'])
-def request_friend(username):
-    """Request another user as a friend"""
-    """Will post current user's username to requested user's friend request dict"""
-    """Will we need to grab both current username and requested username in URL?"""
-    """To take away request functionality/button after request is sent look for request in each user's dictionaries?"""
-    """Or add attribute/dict to user's that include requested friends"""
-    """Need to make a way if username=username do not add request button (so users can't request themselves as friends)"""
     pass
 
 @users_bp.route('/<username>/friends/requests', methods=['GET', 'POST'])
