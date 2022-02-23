@@ -1,10 +1,9 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
-from extensions import is_authenticated
-from flask_login import login_required
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from extensions import is_authenticated, user_playlists, login_required, find_user, current_user
 from datetime import datetime
-from bson.objectid import ObjectId
 import tmdbsimple as tmdb
 from db import *
+import uuid
 
 media_bp = Blueprint('media_bp', __name__, template_folder='templates')
 api_search = tmdb.Search()
@@ -15,11 +14,17 @@ def index_media():
     popular_media = tmdb.Movies().popular()['results']
     return render_template('media_index.html', media=popular_media)
 
+@media_bp.route('/reviews', methods=['GET'])
+def index_reviews():
+    """Return ALL reviews"""
+    all_reviews = reviews.find({})
+    return render_template('reviews_index.html', reviews=all_reviews)
 
 @media_bp.route('/create', methods=['POST'])
-def create_movie(user_id):
+@login_required
+def new_movie(user_id):
     """Creates new media to db"""
-    user = users.find_one({'_id': ObjectId(user_id)})
+    user = find_user(user_id=user_id)
     media_type = request.form['type']
     media_item = {
         'type':            media_type,
@@ -50,118 +55,60 @@ def create_movie(user_id):
 
     return redirect(url_for('index_media', media=media.find(), media_id=media_id))
 
-@media_bp.route('/search', methods=['GET', 'POST'])
-def search_media():
-    if request.method == 'GET':
-        return render_template('media_search.html')
-    else:
-        search_query = request.form['search_query']
-        all_media = api_search.multi(query=search_query)['results'][:3]
-        user_playlists = None
-
-        if is_authenticated():
-            user_playlists = playlists.find({'user_id': session['current_user']['_id']})
-
-        return render_template('media_search.html', media=all_media, playlists=list(user_playlists))
-
-
-@media_bp.route('/<media_id>', methods=['GET'])
-def show_media():
-    return render_template('media_show.html', )
-
-@media_bp.route('/<media_id>/<review_id>', methods=['GET'])
-def show_review(media_id, review_id):
-    """Returns page for just one movie,tvshow,ytvid,etc"""
-    # medium = media.find_one({'_id': ObjectId(media_id)})
-    # medium_reviews = reviews.find({'media_id': media_id})
-    # media_reviews = reviews.find({'media_review': })
-    movie = tmdb.Movies(media_id).info()
-    return render_template('media_show.html', movie=movie)
-
-@media_bp.route('/<media_id>/edit', methods=['GET'])
-def edit_media(media_id):
-    """Returns page or form to edit media"""
-    medium = media.find_one({'_id': ObjectId(media_id)})
-    return render_template('media_edit.html', media=medium)
-
-
-@media_bp.route('/<media_id>/update', methods=['POST'])
-def update_media(media_id, user_id):
-    """route to update media from edit form, goes from edit form to index OR single page?"""
-    ## Should we only allow user that created movie to edit it?
-    ## If so, add if statement to check user_id equals user_id attached to object
-    medium = media.find_one({'_id': ObjectId(media_id)})
-    media_type = medium['media_type']
-    if media_type == 'movie':
-        updated_media = {
-            'media_type':   media_type,
-            'movie_name':   'The Dark Knight',
-            'genre':        'John',
-            'year_created': 'Doe',
-            'date_watched': 'password',
-            'acts_dirs':    '',
-            'tags':         '',
-            'created_on':   datetime.now(),
-            'created_by':   user_id
-        }
-    elif media_type == 'tvshow':
-        updated_media = {
-            'media_type':   media_type,
-            'tvshow_name':  'email@gmail.com',
-            'season':       'John',
-            'episode':      'Doe',
-            'genre':        'Doe',
-            'year_created': 'password',
-            'date_watched': '',
-            'acts_dirs':    '',
-            'tags':         '',
-            'created_on':   datetime.now(),
-            'created_by':   user_id
-        }
-    elif media_type == 'ytvid':
-        updated_media = {
-            'media_type':     media_type,
-            'video_name':     'email@gmail.com',
-            'creator':        'John',
-            'date_uploaded':  'Doe',
-            'date_watched':   '',
-            'tags':           '',
-            'created_on':     datetime.now(),
-            'created_by':     user_id
-        }
-
-    media.update_one(
-        {'_id': ObjectId(media_id)},
-        {'$set': updated_media}
-    )
-    return redirect(url_for('index_media', media=media.find()))
-
-
-## Maybe have this not be accessible to users? Just have them be able to remove things from their own collection
-@media_bp.route('/<media_id>/delete', methods=['POST'])
-def delete_media(media_id):
-    """Delete media"""
-    media.delete_one({'_id':ObjectId(media_id)})
-    return redirect(url_for('index_media', media=media.find()))
-
 @media_bp.route('/<media_id>/reviews', methods=['POST'])
 def new_review(media_id):
     """Create new review of media, should only be on single media page"""
     review = {
-        'media_id':    media_id,
-        'user_id':     request.form.get('user_id'),
-        'username':    request.form.get('username'),
-        'movie_name':  request.form.get('movie_name'),
+        '_id':         uuid.uuid4().hex,
+        'title':       request.form.get('title'),
         'rating':      request.form.get('rating'),
         'description': request.form.get('description'),
-        'date':        datetime.now(),
+        'username':    request.form.get('username'),
+        'user_id':     request.form.get('user_id'),
+        'media_id':    media_id,
+        'created_on':  datetime.now(),
         'tags':        ''
     }
     reviews.insert_one(review)
-    return redirect(url_for('index_media', media_id=media_id))
+    flash('Successfully Review Created.')
+    return redirect(url_for('media_bp.show_media', media_id=media_id))
+
+@media_bp.route('/search', methods=['GET', 'POST'])
+def search_media():
+    if request.method == 'GET':
+        return render_template('media_search.html')
+
+    search_query = request.form['search_query']
+                                                                    # Find First 3 of:
+    m_result = api_search.multi(query=search_query)['results'][:3]  # movies/shows where [title] = search_query
+    u_result = users.find({'username': search_query})[:3]           # users where    [username] = search_query
+    p_result = playlists.find({'title': search_query})[:3]          # playlists where  [title] = search_query
+
+    curr_user = current_user()
+    user_lists = list(user_playlists(curr_user['_id'])) if curr_user else None
+
+    return render_template('media_search.html',
+                           search_query    = search_query,
+                           media_result    = m_result,
+                           user_result     = u_result,
+                           playlist_result = p_result,
+                           user_playlists  = user_lists
+                           )
+
+@media_bp.route('/<media_id>/reviews', methods=['GET'])
+def show_media(media_id):
+    movie = tmdb.Movies(media_id)
+    single_media = movie.info()
+
+    # If movie has a trailer add it to the media_result
+    if movie.videos()['results']:
+        single_media['youtube_key'] = movie.videos()['results'][0]['key']
+
+    media_reviews = reviews.find({'media_id': media_id})
+    return render_template('media_show.html', media=single_media, reviews=media_reviews, users=users)
 
 @media_bp.route('/<media_id>/reviews/<review_id>/delete', methods=['POST'])
 def delete_review(media_id, review_id):
-    reviews.delete_one({'_id': ObjectId(review_id)})
-    return redirect(url_for('show_media', media_id=media_id))
-    
+    reviews.delete_one({'_id': review_id})
+    flash('Successfully Deleted Review.')
+    return redirect(url_for('media_bp.show_media', media_id=media_id))

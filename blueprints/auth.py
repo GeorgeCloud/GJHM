@@ -1,17 +1,14 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from extensions import is_authenticated, login_required, logged_out_required, find_user
 from datetime import datetime
 from db import users, bcrypt
 import uuid
-from extensions import is_authenticated
 
 auth_bp = Blueprint('auth_bp', __name__, template_folder='templates')
 
-
 @auth_bp.route('/signup', methods=['GET', 'POST'])
+@logged_out_required
 def signup():
-    if is_authenticated():
-        return redirect(url_for('homepage'))
-
     if request.method == 'POST':
         password = request.form['password']
         user = {
@@ -30,15 +27,13 @@ def signup():
             return redirect(url_for('auth_bp.login'))
     return render_template('signup.html')
 
-
 @auth_bp.route('/login', methods=['GET', 'POST'])
+@logged_out_required
 def login():
-    if is_authenticated():
-        return redirect(url_for('homepage'))
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        user = users.find_one({'username': username})
+        user = find_user(username)
 
         # Create form validator
         if user and bcrypt.check_password_hash(user['password'], password):
@@ -48,8 +43,8 @@ def login():
             return redirect(url_for('homepage'))
     return render_template('login.html')
 
-
 @auth_bp.route('/logout', methods=['POST'])
+@login_required
 def logout():
     session.clear()
     return redirect(url_for('homepage'))

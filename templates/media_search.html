@@ -8,65 +8,41 @@
     <h2>Showing search results for {{search_query}}</h2>
 
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-      <li class="nav-item">
-        <a style="border-radius: 15px" class="nav-link active" id="pills-worksamples-tab" data-toggle="pill" href="#media" role="tab" aria-controls="pills-worksamples" aria-selected="false">Media</a>
+      <li class="nav-item" role="presentation">
+        <a style="border-radius: 15px" class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Media</a>
       </li>
-      <li class="nav-item">
-        <a style="border-radius: 15px" class="nav-link" id="pills-home-tab" data-toggle="pill" href="#users" role="tab" aria-controls="pills-about-me" aria-selected="true">Users</a>
+      <li class="nav-item" role="presentation">
+        <a style="border-radius: 15px" class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Users</a>
       </li>
-      <li class="nav-item">
-        <a style="border-radius: 15px" class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#playlists" role="tab" aria-controls="pills-skills" aria-selected="false">Playlists</a>
+      <li class="nav-item" role="presentation">
+        <a style="border-radius: 15px" class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Playlists</a>
       </li>
     </ul>
 
     <div class="container">
-{#      <div class="tab-content" id="pills-tabContent">#}
-{#        <div class="tab-pane fade show active" id="pills-about-me" role="tabpanel" aria-labelledby="pills-about-me-tab">#}
-{#          <h2 style="margin-top: 15px; margin-bottom: 15px;"> Searching Media by... search query </h2>#}
-{#        </div>#}
-{##}
-{#        <div class="tab-pane fade" id="pills-worksamples" role="tabpanel" aria-labelledby="pills-worksamples-tab">#}
-{#          <h2> Searching Users by... search query </h2>#}
-{#        </div>#}
-{##}
-{#        <div class="tab-pane fade" id="pills-skills" role="tabpanel" aria-labelledby="pills-skills-tab">#}
-{#          <h2> Searching Playlists by... search query </h2>#}
-{#        </div>#}
-{#      </div>#}
-{#    </div>#}
-      <div>
-        {% for media_item in media %}
-          {#    Card for movie    #}
-          <div class="card mb-3" style="max-width: 540px;">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="https://www.themoviedb.org/t/p/w1280/{{ media_item.poster_path }}" class="img-fluid rounded-start" alt="...">
-              </div>
-              {#     Card Body       #}
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title"><a href="/media/review/{{ media_item.id }}">{{ media_item.title }}</a></h5>
-                  <p class="card-text">{{ media_item.overview[:150] }}...</p>
-                  <p class="card-text"><small class="text-muted">{{ media_item.release_date }}</small></p>
-                {% if 'current_user' in session %}
-                  <form action="{{ url_for('users_bp.index_playlists', username=session['current_user']['username']) }}" method="POST">
-                    <input type="hidden" name="media_id" value="{{ media_item.id }}">
-                    <select name="playlist_id">
-                      {% for playlist in playlists %}
-                        <option value="{{ playlist['_id'] }}">{{ playlist['title'] }}</option>
-                      {% endfor %}
-                    </select>
-                    <input type="submit" value="Add to playlist">
-                  </form>
-                {% endif %}
-                </div>
-              </div>
-            </div>
+      <div class="tab-content" id="pills-tabContent">
+        <!-- Media Search Result -->
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+          <div class="container">
+            {% include 'partials/search/media_result.html' %}
           </div>
-          {#    End of Card    #}
-          {% endfor %}
+        </div>
+
+        <!-- User Search Result -->
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+          <div class="container">
+            {% include 'partials/search/users_results.html' %}
+          </div>
+        </div>
+
+        <!-- Playlist Search Result -->
+        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+          <div class="container">
+            {% include 'partials/search/playlists_result.html' %}
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
+  {% include 'partials/search/bootstrap.js' %}
 {% endblock %}
