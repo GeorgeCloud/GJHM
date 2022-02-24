@@ -20,6 +20,7 @@ nav {
 
 .srch-btn {
     color: rgba(82, 121, 111, 1);
+    border:none;
 }
 
 .srch-btn:hover {
@@ -34,3 +35,29 @@ nav {
     border-right: none;
     border-color: rgba(64, 84, 95, 1);
 }
+
+select {
+    background-color: rgba(47, 62, 70, 1);
+    color: rgba(202, 210, 197, 1);
+    border-radius: 5px;
+    padding: 3px;
+}
+
+.title {
+    color: rgba(202, 210, 197, 1);
+}
+
+input {
+    border-radius: 5px;
+}
+
+.btn {
+    color: rgba(82, 121, 111, 1);
+    border:none;
+}
+
+.btn:hover {
+    background-color: rgba(82, 121, 111, 1);
+    color: rgba(202, 210, 197, 1);
+}
+

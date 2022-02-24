@@ -77,10 +77,10 @@
           <a class="nav-link" href="/login">Login</a>
         </li>
         {% else %}
-        <li class="px-2"> {{ session['current_user']['username'] }}</li>
+        <li style="padding: 6px;"><strong> {{ session['current_user']['username'] }} </strong></li>
         <li>
           <form action="/logout" method="POST">
-            <button type="submit" class="btn btn-outline-secondary">Logout</button>
+            <button type="submit" class="btn">Logout</button>
           </form>
         </li>
         {% endif %}
