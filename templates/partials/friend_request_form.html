@@ -1,0 +1,7 @@
+<div class="col-3">
+  <form action="/users/{{ user.username }}/request-friend/{{ user_current.username }}" id="new_invite">
+    <input id="current_user" type="hidden" name="user_current" value="{{ user_current._id }}">
+    <input id="requested_user" type="hidden" name="user_requested" value="{{ user._id }}">
+    <button type="submit" class="btn btn-primary" form="new_invite">Follow</button>
+  </form>
+</div>

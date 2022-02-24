@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, session, flash
-from extensions import find_movie, current_user_is, login_required, find_user, user_playlists
+from extensions import find_movie, current_user_is, login_required, find_user, user_playlists, current_user
 from datetime import datetime
 from db import *
 import uuid
@@ -14,12 +14,12 @@ def index_users():
 @users_bp.route('/<username>', methods=['GET'])
 def view_user(username):
     user = find_user(username)
-
+    user_current = current_user()
     if not user:
         return 'User not found'
 
     u_playlists = user_playlists(user['_id'])
-    return render_template('users_show.html', user=user, playlists=u_playlists)
+    return render_template('users_show.html', user=user, user_current = user_current, playlists=u_playlists)
 
 @users_bp.route('<username>/edit', methods=['GET', 'POST'])
 def edit_user(username):
@@ -107,25 +107,39 @@ def delete_playlist(username, playlist_id):
 
     return redirect(url_for('homepage'))
 
-"""FRIENDS"""
-"""Should these be separate database of friends that we match to username or should this be dict inside user dict"""
-"""Should we do following/followers functionality or if request is accepted users are appended to both users' dicts"""
 """Invitation = friend request new db matched by username"""
 """{
      sender_id
      reciever_id
      date
 }"""
-"""If accepted, add to array delete if deny"""
-@users_bp.route('/<user_id>/request-friend/<friend_id>', methods=['POST'])
-def new_invitation(user_id, friend_id):
-    
+"""If accepted, add to friends attribute for user (array) delete if deny"""
+
+@users_bp.route('<friend_username>/request-friend/<username>', methods=['POST', 'GET'])
+def new_invitation(friend_username, username):
     """Request another user as a friend"""
-    """Will post current user's username to requested user's friend request dict"""
-    """Will we need to grab both current username and requested username in URL?"""
+    user_current = users.find_one({'username': username})
+    user_requested = users.find_one({'username': friend_username})
+    invitation = {
+        '_id': uuid.uuid4().hex,
+        'sender_id': user_current['_id'],
+        'reciever_id': user_requested['_id'],
+        'date': datetime.now()
+    }
+    print(invitation)
+    return view_user(friend_username)
+
     """To take away request functionality/button after request is sent look for request in each user's dictionaries?"""
-    """Or add attribute/dict to user's that include requested friends"""
     """Need to make a way if username=username do not add request button (so users can't request themselves as friends)"""
+
+@users_bp.route('/<username>/friend-requests', methods=['GET', 'POST'])
+def view_requests(username):
+    """Need to be able to view only if current user=this user's profile"""
+    """able to accept or deny here"""
+    """If accepted, add to user's friends dictionary"""
+    """If denied, delete from requests/friends dictionary"""
+    user = users.find_one({'username': username})
+    user_invitations = friend_requests.find({'_id'})
     pass
 
 
@@ -143,15 +157,6 @@ def delete_friend(username):
     """Remove logged in user's friend"""
     """Can only be done by matching user/if logged in"""
     """Removed friend from user's friend dict"""
-    pass
-
-@users_bp.route('/<username>/friends/requests', methods=['GET', 'POST'])
-def view_requests(username):
-    """View all friend requests within separate requests dict OR"""
-    """have some attribute that determines if friend in dict is accepted or not, then show by this attribute"""
-    """able to accept or deny here"""
-    """If accepted, add to user's friends dictionary"""
-    """If denied, delete from requests/friends dictionary"""
     pass
 
 

@@ -26,11 +26,18 @@
 
         <!-- follow button -->
         <div class="row p-3">
-            <button>Follow</button>
+            <!-- follow button -->
+          
         </div>
 
         <!-- todo: user followers and following -->
-
+        <div>
+          {% if user.username == user_current.username %}
+            <p>View Friends</p>
+            <p>View Requests</p>
+          {% else %}
+            {% include 'partials/friend_request_form.html' %}
+          {% endif %}
         </div>
     </div>
 
