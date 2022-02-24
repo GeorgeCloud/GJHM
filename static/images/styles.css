@@ -15,7 +15,7 @@ nav {
 .nav-link:hover {
     background-color: rgba(82, 121, 111, 1);
     color: rgba(202, 210, 197, 1);
-    border-radius: 20px;
+    border-radius: 5px;
 }
 
 .srch-btn {
