@@ -92,9 +92,8 @@ def search_media():
         if 'known_for' in m_result['results'][i]:
             for dict in m_result['results'][i]['known_for']:
                 m_results_redo.append(dict)
-                
-    for u in u_result:
-        print(u)
+
+    # print(type(u_result))
 
     return render_template('media_search.html',
                            search_query    = search_query,
