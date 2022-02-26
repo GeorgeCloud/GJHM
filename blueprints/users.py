@@ -22,9 +22,7 @@ def view_user(username):
 
     u_playlists = user_playlists(user['_id'])
 
-    friends = []
-    for friend in user['friends']:
-        friends.append(friend['_id'])
+    friends = user['friends']
 
     if user_current:
         for invite in friend_requests.find():
@@ -164,8 +162,12 @@ def accept_invitation(username):
         # delete friend request and append friend object to current user's 
         friend_requests.find_one_and_delete({'sender_id': request.form.get('invitation_id')})
         users.update_one(
+            {'username': friend['username']},
+            {'$push': {'friends': user['_id']}}
+        )
+        users.update_one(
             {'username': username},
-            {'$push': {'friends':friend}}
+            {'$push': {'friends':friend['_id']}}
         )
     return redirect(url_for('users_bp.view_invitations', username=user['username']))
 
@@ -173,13 +175,28 @@ def accept_invitation(username):
 def view_friends(username):
     user=users.find_one({'username':username})
     friends=user['friends']
-    return(render_template('users_friends_index.html', user=user, friends=friends))
+    friends_list = []
+    for id in friends:
+        friends_list.append(users.find_one({'_id':id}))
+    return(render_template('users_friends_index.html', user=user, friends=friends_list))
 
 @users_bp.route('/<username>/friends/delete', methods=['POST'])
 def delete_friend(username):
     """Remove logged in user's friend"""
     """Can only be done by matching user/if logged in"""
     """Removed friend from user's friend dict"""
-    pass
+    user = users.find_one({'username': username})
+    friend = users.find_one({'username': request.form.get('friend_username')})
+    print(friend)
+    print(user)
+    users.update_one(
+        {'username': friend['username']},
+        {'$pull': {'friends': user['_id']}}
+    )
+    users.update_one(
+        {'username': username},
+        {'$pull': {'friends': friend['_id']}}
+    )
+    return redirect(url_for('users_bp.view_friends', username=user['username']))
 
 

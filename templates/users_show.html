@@ -35,11 +35,10 @@
           {% if requested == True %}
             <p class="btn btn-secondary">Requested</p>
           {% elif user.username == user_current.username %}
-            <a href="{{ user.username }}/friends">View Followers</a>
+            <a href="{{ user.username }}/friends">View Friends</a>
             <!-- *TODO* add following page? will have to either find current user id in all users OR
             redo attributes with followers and following instead of friends OR 
             accepting a friend adds friend to both user's lists (so if you accept then you become their friend and they become yours) -->
-            <a href="">View Following</a>
             <a href="{{ user.username }}/friend-requests">View Requests</a>
           {% elif user_current._id in friends %}
             <p class="btn btn-success">Following</p>
