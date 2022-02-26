@@ -19,6 +19,7 @@ def signup():
             'password':   bcrypt.generate_password_hash(password).decode('utf-8'),
             'avatar_url': '',
             'created_on': datetime.now(),
+            'friends': []
         }
         if users.insert_one(user):
             del user['password']

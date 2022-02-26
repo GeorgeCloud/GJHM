@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, url_for, redirect, session, flash
+import flask
 from extensions import find_movie, current_user_is, login_required, find_user, user_playlists, current_user
 from datetime import datetime
 from db import *
@@ -15,11 +16,22 @@ def index_users():
 def view_user(username):
     user = find_user(username)
     user_current = current_user()
+    requested = False
     if not user:
         return 'User not found'
 
     u_playlists = user_playlists(user['_id'])
-    return render_template('users_show.html', user=user, user_current = user_current, playlists=u_playlists)
+
+    friends = []
+    for friend in user['friends']:
+        friends.append(friend['_id'])
+
+    if user_current:
+        for invite in friend_requests.find():
+            if invite['sender_id'] == user_current['_id'] and invite['reciever_id'] == user['_id']:
+                requested = True
+
+    return render_template('users_show.html', user=user, user_current = user_current, playlists=u_playlists, requested=requested, friends=friends)
 
 @users_bp.route('<username>/edit', methods=['GET', 'POST'])
 def edit_user(username):
@@ -107,13 +119,8 @@ def delete_playlist(username, playlist_id):
 
     return redirect(url_for('homepage'))
 
-"""Invitation = friend request new db matched by username"""
-"""{
-     sender_id
-     reciever_id
-     date
-}"""
-"""If accepted, add to friends attribute for user (array) delete if deny"""
+
+
 
 @users_bp.route('<friend_username>/request-friend/<username>', methods=['POST', 'GET'])
 def new_invitation(friend_username, username):
@@ -126,31 +133,47 @@ def new_invitation(friend_username, username):
         'reciever_id': user_requested['_id'],
         'date': datetime.now()
     }
-    print(invitation)
-    return view_user(friend_username)
-
-    """To take away request functionality/button after request is sent look for request in each user's dictionaries?"""
-    """Need to make a way if username=username do not add request button (so users can't request themselves as friends)"""
+    friend_requests.insert_one(invitation)
+    return redirect(url_for('users_bp.view_user', username=friend_username))
 
 @users_bp.route('/<username>/friend-requests', methods=['GET', 'POST'])
-def view_requests(username):
-    """Need to be able to view only if current user=this user's profile"""
+def view_invitations(username):
     """able to accept or deny here"""
-    """If accepted, add to user's friends dictionary"""
-    """If denied, delete from requests/friends dictionary"""
+    """TODO: If accepted, add to user's friends dictionary"""
+    requests = []
     user = users.find_one({'username': username})
-    user_invitations = friend_requests.find({'_id'})
-    pass
+    user_invitations = friend_requests.find({'reciever_id': user['_id']})
+    # iterating over each invite and finding user info then adding to requests list
+    for invite in user_invitations:
+        sender = users.find_one({'_id': invite['sender_id']})
+        requests.append(sender)
+    return render_template('users_friend_requests.html', user=user, requests=requests)
 
+@users_bp.route('/<username>/friend-requests/delete', methods=['GET', 'POST'])
+def delete_invitation(username):
+    user = users.find_one({'username': username})
+    if flask.request.method == 'POST':
+        friend_requests.find_one_and_delete({'sender_id': request.form.get('invitation_id')})
+    return redirect(url_for('users_bp.view_invitations', username=user['username']))
+
+@users_bp.route('/<username>/friend-requests/accept', methods=['GET', 'POST'])
+def accept_invitation(username):
+    user = users.find_one({'username': username})
+    friend = users.find_one({'username': request.form.get('friend_username')})
+    if flask.request.method == 'POST':
+        # delete friend request and append friend object to current user's 
+        friend_requests.find_one_and_delete({'sender_id': request.form.get('invitation_id')})
+        users.update_one(
+            {'username': username},
+            {'$push': {'friends':friend}}
+        )
+    return redirect(url_for('users_bp.view_invitations', username=user['username']))
 
 @users_bp.route('/<username>/friends', methods=['GET'])
 def view_friends(username):
-    """View all of user's friends"""
-    """Need two functionalities:"""
-    """If not matching user/logged in: can be seen by all"""
-    """If matching user/logged in: can delete friends"""
-    """Elements: list of friend profiles with optional delete button and links to profiles"""
-    pass
+    user=users.find_one({'username':username})
+    friends=user['friends']
+    return(render_template('users_friends_index.html', user=user, friends=friends))
 
 @users_bp.route('/<username>/friends/delete', methods=['POST'])
 def delete_friend(username):

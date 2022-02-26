@@ -1,0 +1,38 @@
+<!-- USER FRIEND REQUESTS -->
+{% extends 'partials/base.html' %}
+
+{% block title %} {{ user.username }} | Friend Requests {% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>{{ user.username }}'s Friend Requests</h1>
+  <div class="container">
+    <div class="row p-3">
+        <!-- todo: user followers and following -->
+        <div>
+            <!-- check if on logged in user's page and display buttons accordingly -->
+            <!-- todo: need if statements to check if request is in user's dict and show requested button if true -->
+            <!-- todo: need if statement to see if users are friends and display following if true -->
+            {% for invite in requests %}
+                <p>{{ invite.username }}</p>
+
+                <form action="/users/{{ user.username }}/friend-requests/accept" id="accept_request_{{invite._id}}" method="post">
+                    <input type="hidden" name="friend_username" value="{{ invite.username }}">
+                    <input type="hidden" name="invitation_id" value="{{ invite._id }}">
+                    <button type="submit" class="btn btn-primary" form="accept_request_{{invite._id}}">Accept</button>
+                </form>
+
+                <form action="/users/{{ user.username }}/friend-requests/delete" id="decline_request_{{invite._id}}" method="post">
+                    <input type="hidden" name="invitation_id" value="{{ invite._id }}">
+                    <button type="submit" class="btn btn-primary" form="decline_request_{{invite._id}}">Decline</button>
+                </form>
+
+            {% else %}
+                <p>No friend requests</p>
+            {% endfor %}
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

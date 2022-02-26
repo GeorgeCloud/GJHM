@@ -1,0 +1,28 @@
+<!-- USER FRIEND REQUESTS -->
+{% extends 'partials/base.html' %}
+
+{% block title %} {{ user.username }} | Friends {% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>{{ user.username }}'s Friends</h1>
+  <div class="container">
+    <div class="row p-3">
+        <!-- todo: user followers and following -->
+        <div>
+            {% for friend in friends %}
+                <p>{{ friend.username }}</p>
+
+                <form action="" id="delete_{{friend._id}}" method="post">
+                    <input type="hidden" name="friend_id" value="{{ friend._id }}">
+                    <button type="submit" class="btn btn-primary" form="delete_{{friend._id}}">Remove Friend</button>
+                </form>
+            {% else %}
+                <p>No friends :(</p>
+            {% endfor %}
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
