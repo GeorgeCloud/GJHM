@@ -115,7 +115,8 @@
             <div class="row">
               {% for movie in popular_movies[0:3] %}
                 <div class="col-md-4">
-                  <a href="{{ url_for('media_bp.show_media', media_id=movie.id, media_type=movie.media_type) }}">
+                  
+                  <a href="/media/movie/{{ movie.id }}/reviews">
                     <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" alt="{{ movie.id }}">
                   </a>
                 </div>
@@ -127,7 +128,7 @@
               <div class="row">
                 {% for movie in movie_row %}
                   <div class="col-md-4">
-                    <a href="{{ url_for('media_bp.show_media', media_id=movie.id, media_type=movie.media_type) }}">
+                    <a href="/media/movie/{{ movie.id }}/reviews">
                       <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ movie.poster_path }}" alt="{{ movie.id }}">
                     </a>
                   </div>
@@ -154,7 +155,9 @@
             <div class="row">
               {% for show in popular_tvshows[0:3] %}
                 <div class="col-md-4">
-                  <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ show.poster_path }}" alt="{{ show.id }}">
+                  <a href="/media/tv/{{ show.id }}/reviews">
+                    <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ show.poster_path }}" alt="{{ show.id }}">
+                  </a>
                 </div>
               {% endfor %}
             </div>
@@ -164,7 +167,9 @@
               <div class="row">
                 {% for show in show_row %}
                   <div class="col-md-4">
-                    <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ show.poster_path }}" alt="{{ show.id }}">
+                    <a href="/media/tv/{{ show.id }}/reviews">
+                      <img class="d-block w-100" src="https://www.themoviedb.org/t/p/w1280/{{ show.poster_path }}" alt="{{ show.id }}">
+                    </a>
                   </div>
                 {% endfor %}
               </div>
