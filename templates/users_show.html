@@ -4,7 +4,7 @@
 {% block title %} {{ user.username }} | Profile {% endblock %}
 
 {% block content %}
-  <h1 class="text-center">{{ user.username }}'s Profile</h1>
+  <h1 class="text-center">{{ user.username }}</h1>
 
 <!-- user profile card -->
   <div class="container card">
@@ -13,14 +13,14 @@
 
       <!-- profile picturre -->
         <div class="col-3">
-            <img  style="width: 200px;height:200px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url}}" alt="user profile picture"> 
+            <img  style="width: 200px;height:200px;" class="w-4 rounded-circle m-auto" src="https://espclarity.com/wp-content/uploads/2021/07/3rd-member.png" alt="user profile picture"> 
         </div>
 
         <!-- user information  -->
         <div class="col-9">
             <h1>{{ user.full_name.capitalize() }}</h1><br>
             <!-- <p>user bio</p> <br> -->
-            <p>{{ user.email }}</p> <br>
+            <p>@{{ user.username }}</p> <br>
             <p>{{ user.created_on.strftime('%b %Y') }}</p> <br> 
         </div>
 
