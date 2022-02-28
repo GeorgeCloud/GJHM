@@ -5,18 +5,13 @@
 
 {% block content %}
   <!-- placeholder nav -->
-  <nav class="navbar profile-nav mb-3">
-    <a class="nav-item active"> POSTS </a>
-    <a class="nav-item"> MEDIA </a>
-    <a class="nav-item"> LISTS </a>
-  </nav>
 
   <!-- card for movie -->
   <div class="container card">
     <div class="row p-3">
 
       <div class="col-3">
-        <img style="height:300px; width: 250px;" src="https://www.themoviedb.org/t/p/w1280/{{ media.poster_path }}" class="img-fluid rounded-start" alt="...">
+        <img style="height:300px;" src="https://www.themoviedb.org/t/p/w1280/{{ media.poster_path }}" class="img-fluid rounded-start" alt="...">
       </div>
 
       <div class="col-9">

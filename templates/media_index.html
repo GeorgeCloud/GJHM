@@ -26,9 +26,8 @@
     <!-- genre filter -->
     <div class="row">
       <form class="px-3">
-        <label>Genre</label>
         <select>
-          <option></option>
+          <option selected>Genre</option>
           <option>Fantasy</option>
           <option>Animation</option>
           <option>Drama</option>
@@ -38,9 +37,8 @@
 
       <!-- another filter -->
       <form class="px-3">
-        <label>Year</label>
         <select>
-          <option></option>
+          <option selected>Year</option>
           <option>Fantasy</option>
           <option>Animation</option>
           <option>Drama</option>
@@ -60,15 +58,11 @@
         </div>
 
         <div class="col-9">
-          <div class="row">
-            <div class="col-3">
-              <h1>{{ media_item.title }}</h1>
-            </div>
-
+          <div class="col">
+            <h1>{{ media_item.title }}</h1>
             <h3>{{ media_item.release_date }}</h3>
-          </div>
-
-          <p>{{ media_item.overview[:150] }}</p>
+           
+            <p>{{ media_item.overview[:150] }}</p>
         </div>
       </div>
     </div>

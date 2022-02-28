@@ -6,6 +6,7 @@
 {% block content %}
 <!-- carousel -->
   <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+
     <ol class="carousel-indicators">
       <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
       <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
@@ -60,17 +61,11 @@
 
 <!-- for post in posts -->
 <div class="container card mt-3">
-  <div class="row p-3">
-
-    <!-- user profile pic -->
-    <div class="col-3">
-      <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="" alt="user profile pic">
-    </div>
 
     <!-- Media Carousel -->
-    <div class="col-6">
-      <p class="text-center">Media Trending Today</p>
-      <div id="trending-carousel" class="carousel slide carousel-multi-item" data-ride="carousel">
+    <div class="container">
+      <h3 class="text-center">Media Trending Today</h3>
+      <div id="trending-carousel" class="carousel slide carousel-multi-item my-3" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
           <div class="carousel-item active">
             <div class="row">
@@ -108,8 +103,8 @@
       </div>
 
       <!-- Movie Carousel -->
-      <p class="text-center">Popular Movies</p>
-      <div id="movies-carousel" class="carousel slide carousel-multi-item" data-ride="carousel">
+      <h3 class="text-center">Popular Movies</h3>
+      <div id="movies-carousel" class="carousel slide carousel-multi-item my-3" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
           <div class="carousel-item active">
             <div class="row">
@@ -147,8 +142,8 @@
       </div>
 
       <!-- Tv Show Carousel -->
-      <p class="text-center">Popular Tv Shows</p>
-      <div id="tvshows-carousel" class="carousel slide carousel-multi-item" data-ride="carousel">
+      <h3 class="text-center">Popular Tv Shows</h3>
+      <div id="tvshows-carousel" class="carousel slide carousel-multi-item my-3" data-ride="carousel">
         <div class="carousel-inner" role="listbox">
           <div class="carousel-item active">
             <div class="row">
@@ -184,10 +179,6 @@
       <!-- movie: movie selected -->
     </div>
 
-    <div class="col-3">
-      <!-- movie poster url  -->
-      <img style="height:200px;" src="" alt="movie poster">
-    </div>
 
   </div>
 </div>
