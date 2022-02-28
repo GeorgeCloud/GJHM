@@ -80,29 +80,49 @@ def search_media():
 
     search_query = request.form['search_query']
                                                                     # Find First 3 of:
-    m_result = api_search.multi(query=search_query)['results'][:3]  # movies/shows where [title] = search_query
+    m_result = api_search.multi(query=search_query, include_adult=False)                 # movies/shows/notable people where [title] = search_query
     u_result = users.find({'username': search_query})[:3]           # users where    [username] = search_query
     p_result = playlists.find({'title': search_query})[:3]          # playlists where  [title] = search_query
 
     curr_user = current_user()
     user_lists = list(user_playlists(curr_user['_id'])) if curr_user else None
 
+    m_results_redo = []
+    for i in range(0, len(m_result['results'])):
+        if 'known_for' in m_result['results'][i]:
+            for dict in m_result['results'][i]['known_for']:
+                m_results_redo.append(dict)
+        else:
+            m_results_redo.append(m_result['results'][i])
+
+    # removing adult films
+    for i in m_results_redo:
+        if 'adult' in i.keys():
+            if i['adult'] == True:
+                m_results_redo.remove(i)
+
     return render_template('media_search.html',
                            search_query    = search_query,
-                           media_result    = m_result,
+                           media_result    = m_results_redo,
                            user_result     = u_result,
                            playlist_result = p_result,
                            user_playlists  = user_lists
                            )
 
-@media_bp.route('/<media_id>/reviews', methods=['GET'])
-def show_media(media_id):
-    movie = tmdb.Movies(media_id)
-    single_media = movie.info()
-
-    # If movie has a trailer add it to the media_result
-    if movie.videos()['results']:
-        single_media['youtube_key'] = movie.videos()['results'][0]['key']
+@media_bp.route('/<media_type>/<media_id>/reviews', methods=['GET'])
+def show_media(media_type, media_id):
+    # TODO: Need to do for tv shows as well
+    if media_type == 'movie':
+        movie = tmdb.Movies(media_id)
+        single_media = movie.info()
+        # If movie has a trailer add it to the media_result
+        if movie.videos()['results']:
+            single_media['youtube_key'] = movie.videos()['results'][0]['key']
+    elif media_type == 'tv':
+        tvshow = tmdb.TV(media_id)
+        single_media = tvshow.info()
+        if tvshow.videos()['results']:
+            single_media['youtube_key'] = tvshow.videos()['results'][0]['key']
 
     media_reviews = reviews.find({'media_id': media_id})
     return render_template('media_show.html', media=single_media, reviews=media_reviews, users=users)

@@ -1,0 +1,20 @@
+{% for user in user_result %}
+  <div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+      <div class="col-md-8">
+        <div class="card-body">
+            <!-- FOR USER PROFILE PICS WHEN WE ADD -->
+            <!-- <div class="col-md-4">
+                <object style="width: 200px;" data="{{ user.profile_pic }}" class="img-fluid rounded-start" type="image/png" alt="media poster">
+                    <img src="/static/images/default.gif" class="img-fluid rounded-start" alt="media poster">
+                </object>
+            </div> -->
+          <h5 class="card-title">
+            {{ user.username }}
+          </h5>
+          <a href="/users/{{ user.username }}">View Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
