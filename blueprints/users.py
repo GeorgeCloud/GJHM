@@ -21,6 +21,7 @@ def view_user(username):
         return 'User not found'
 
     u_playlists = user_playlists(user['_id'])
+    u_reviews = reviews.find({'user_id': user['_id']})
 
     friends = user['friends']
 
@@ -29,7 +30,13 @@ def view_user(username):
             if invite['sender_id'] == user_current['_id'] and invite['reciever_id'] == user['_id']:
                 requested = True
 
-    return render_template('users_show.html', user=user, user_current = user_current, playlists=u_playlists, requested=requested, friends=friends)
+    return render_template('users_show.html', user=user,
+                                              user_current=user_current,
+                                              playlists=u_playlists,
+                                              requested=requested,
+                                              friends=friends,
+                                              reviews=u_reviews
+                                              )
 
 @users_bp.route('<username>/edit', methods=['GET', 'POST'])
 def edit_user(username):
@@ -159,7 +166,7 @@ def accept_invitation(username):
     user = users.find_one({'username': username})
     friend = users.find_one({'username': request.form.get('friend_username')})
     if flask.request.method == 'POST':
-        # delete friend request and append friend object to current user's 
+        # delete friend request and append friend object to current user's
         friend_requests.find_one_and_delete({'sender_id': request.form.get('invitation_id')})
         users.update_one(
             {'username': friend['username']},
@@ -180,6 +187,11 @@ def view_friends(username):
         friends_list.append(users.find_one({'_id':id}))
     return(render_template('users_friends_index.html', user=user, friends=friends_list))
 
+@users_bp.route('/<username>/reviews', methods=['GET'])
+def user_reviews():
+    reviews.find({''})
+    return(render_template('users_friends_index.html', user=user, friends=friends_list))
+
 @users_bp.route('/<username>/friends/delete', methods=['POST'])
 def delete_friend(username):
     """Remove logged in user's friend"""
@@ -198,5 +210,3 @@ def delete_friend(username):
         {'$pull': {'friends': friend['_id']}}
     )
     return redirect(url_for('users_bp.view_friends', username=user['username']))
-
-

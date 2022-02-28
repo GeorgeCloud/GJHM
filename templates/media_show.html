@@ -36,7 +36,6 @@
   {% if 'current_user' in session %}
     <div class="container card">
       <form method="POST">
-        <input type="hidden" name="user_id" value="{{ session['current_user']['_id'] }}">
         {% include 'partials/review_form.html' %}
       </form>
     </div>
@@ -49,7 +48,7 @@
         {% set user = users.find_one({'_id': review.user_id}) %}
         <!-- user's profile picture -->
         <div class="col-3">
-          <img style="width: 100px;" class="m-auto" src="{{ url_for('static', filename='images/icon.png')}}" alt="user profile picture">
+          <img style="width: 100px;" class="m-auto" src="{{ url_for('static', filename='images/default_profile.png')}}" alt="user profile picture">
           <p>{{ user.username }}</p>
         </div>
 
@@ -62,6 +61,7 @@
           <p>0 likes, 0 comments</p>
         </div>
 
+        {% if 'current_user' in session and review.username == session['current_user']['username'] %}
           <div class="col-6">
             <div class="row">
               <form action="" method="" class="ml-auto">
@@ -73,6 +73,7 @@
               </form>
             </div>
           </div>
+        {% endif %}
       </div>
     </div>
   {% endfor %}
