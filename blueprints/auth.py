@@ -16,6 +16,7 @@ def signup():
             'email':      request.form['email'],
             'username':   request.form['username'],
             'full_name':  request.form['full_name'],
+            'bio':        request.form['bio'],
             'password':   bcrypt.generate_password_hash(password).decode('utf-8'),
             'avatar_url': '',
             'created_on': datetime.now(),

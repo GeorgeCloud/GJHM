@@ -13,7 +13,7 @@
 
       <!-- profile picturre -->
         <div class="col-3">
-            <img  style="width: 200px;height:200px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url}}" alt="user profile picture"> 
+          <img style="width: 200px;" class="m-auto" src="{{ url_for('static', filename='images/default_profile.png')}}" alt="user profile picture">
         </div>
 
         <!-- user information  -->
@@ -21,13 +21,13 @@
             <h1>{{ user.full_name.capitalize() }}</h1><br>
             <!-- <p>user bio</p> <br> -->
             <p>{{ user.email }}</p> <br>
-            <p>{{ user.created_on.strftime('%b %Y') }}</p> <br> 
+            <p>{{ user.created_on.strftime('%b %Y') }}</p> <br>
         </div>
 
         <!-- follow button -->
         <div class="row p-3">
             <!-- follow button -->
-          
+
         </div>
 
         <!-- todo: user followers and following -->
@@ -37,7 +37,7 @@
           {% elif user.username == user_current.username %}
             <a href="{{ user.username }}/friends">{{ friends|length }} Friends</a>
             <!-- *TODO* add following page? will have to either find current user id in all users OR
-            redo attributes with followers and following instead of friends OR 
+            redo attributes with followers and following instead of friends OR
             accepting a friend adds friend to both user's lists (so if you accept then you become their friend and they become yours) -->
             <a href="{{ user.username }}/friend-requests">{{ user_requests|length }} Requests</a>
           {% elif user_current._id in friends %}
@@ -51,7 +51,7 @@
      <!-- PROFILE NAV -->
     <div class= "container">
       <div class="text-center row profile-nav">
-        <a class="nav-item col-6" href="{{ user.username }}/playlists"> LISTS </a>
+        <a class="nav-item col-6"> LISTS </a>
         <a class="nav-item col-6"> Reviews </a>
       </div>
       <!-- TODO: link to routes -->
@@ -64,7 +64,7 @@
 
       <!-- user profile pic -->
       <div class="col-3">
-        <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url }}" alt="100x100"> 
+        <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url }}" alt="100x100">
       </div>
 
       <div class="col-6">
