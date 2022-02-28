@@ -24,18 +24,25 @@ def view_user(username):
     u_reviews = reviews.find({'user_id': user['_id']})
 
     friends = user['friends']
+    user_invitations = friend_requests.find({'requested_id':user_current['_id']})
+    requests = []
 
     if user_current:
         for invite in friend_requests.find():
             if invite['sender_id'] == user_current['_id'] and invite['reciever_id'] == user['_id']:
                 requested = True
 
+    for invite in user_invitations:
+        sender = users.find_one({'_id': invite['sender_id']})
+        requests.append(sender)
+    
     return render_template('users_show.html', user=user,
                                               user_current=user_current,
                                               playlists=u_playlists,
                                               requested=requested,
                                               friends=friends,
-                                              reviews=u_reviews
+                                              reviews=u_reviews,
+                                              user_requests=requests
                                               )
 
 @users_bp.route('<username>/edit', methods=['GET', 'POST'])
