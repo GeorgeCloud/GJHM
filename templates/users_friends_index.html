@@ -6,15 +6,24 @@
 {% block content %}
 <div class="container">
   <h1>{{ user.username }}'s Friends</h1>
+  <a href="{{ url_for('users_bp.view_user', username=session['current_user']['username']) }}">Back to Profile</a>
   <div class="container">
     <div class="row p-3">
         <!-- todo: user followers and following -->
-        <div>
+       
             {% for friend in friends %}
-                <p>{{ friend.username }}</p>
+            <div class="col-3">
+                <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="https://espclarity.com/wp-content/uploads/2021/07/3rd-member.png" alt="user profile picture"> <br>
+            </div>
+            
+            <div class="col-6">
+                <h3>{{ friend.full_name.capitalize() }}</h3><br>
+                <a href="/users/{{ user.username }}">@{{friend.username}}</a>
+            </div>
+        
                 <form action="/users/{{ user.username }}/friends/delete" id="delete_{{friend._id}}" method="post">
                     <input type="hidden" name="friend_username" value="{{ friend.username }}">
-                    <button type="submit" class="btn btn-primary" form="delete_{{friend._id}}">Remove Friend</button>
+                    <button type="submit" class="btn" form="delete_{{friend._id}}">Remove Friend</button>
                 </form>
             {% else %}
                 <p>No friends :(</p>
