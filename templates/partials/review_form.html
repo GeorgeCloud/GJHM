@@ -1,23 +1,23 @@
 <!-- USER SIGN UP FORM -->
 <div class="container m-auto text-center">
-  <div class="container col-2 m-auto">
+  <div class="container m-auto">
     <div class="row">
       <legend>New Review</legend>
     </div>
 
-    <div class="row">
-      <label for="title">Title</label>
-      <input id="title" type="text" name="title" required>
+    <div class="form-group row">
+      <label for="title" class ="col-form-label">Title</label><br>
+      <input id="title" type="text" name="title" required class="form-control col-3 mx-4">
     </div>
 
-    <div class="row">
-      <label for="rating">Rating</label>
-      <input id="rating" type="number" name="rating" min="1" max="5" required>
+    <div class="row form-group">
+      <label for="rating" class ="col-form-label">Rating</label><br>
+      <input id="rating" type="number" name="rating" min="1" max="5" required class="form-controlcol-sm-10 mx-2">
     </div>
 
-    <div class="row">
+    <div class="row form-group">
       <label for="description">Description</label>
-      <textarea id="description" name="description" cols="80" rows="5" required></textarea>
+      <textarea id="description" name="description" cols="80" rows="5" required class="form-control"></textarea>
     </div>
   </div>
 
