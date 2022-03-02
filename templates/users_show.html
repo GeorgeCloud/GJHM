@@ -39,13 +39,25 @@
         <!-- follow button -->
         <div class="row p-3">
             <!-- follow button -->
-            <div class="text-center col-3">
-              
-            </div>
+
         </div>
 
         <!-- todo: user followers and following -->
-       
+        <div>
+          {% if requested == True %}
+            <p class="btn btn-secondary">Requested</p>
+          {% elif user.username == user_current.username %}
+            <a href="{{ user.username }}/friends">{{ friends|length }} Friends</a>
+            <!-- *TODO* add following page? will have to either find current user id in all users OR
+            redo attributes with followers and following instead of friends OR
+            accepting a friend adds friend to both user's lists (so if you accept then you become their friend and they become yours) -->
+            <a href="{{ user.username }}/friend-requests">{{ user_requests|length }} Requests</a>
+          {% elif user_current._id in friends %}
+            <p class="btn btn-success">Following</p>
+          {% else %}
+            {% include 'partials/friend_request_form.html' %}
+          {% endif %}
+        </div>
     </div>
 
      <!-- PROFILE NAV -->
@@ -64,7 +76,7 @@
 
       <!-- movie pic -->
       <div class="col-3">
-        <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url }}" alt="100x100"> 
+        <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url }}" alt="100x100">
       </div>
 
       <div class="col-6">

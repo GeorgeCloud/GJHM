@@ -55,23 +55,25 @@ def new_movie(user_id):
 
     return redirect(url_for('index_media', media=media.find(), media_id=media_id))
 
-@media_bp.route('/<media_id>/reviews', methods=['POST'])
-def new_review(media_id):
+@media_bp.route('/<media_type>/<media_id>/reviews', methods=['POST'])
+@login_required
+def new_review(media_id, media_type):
     """Create new review of media, should only be on single media page"""
     review = {
         '_id':         uuid.uuid4().hex,
         'title':       request.form.get('title'),
         'rating':      request.form.get('rating'),
         'description': request.form.get('description'),
-        'username':    request.form.get('username'),
-        'user_id':     request.form.get('user_id'),
+        'username':    session['current_user']['username'],
+        'user_id':     session['current_user']['_id'],
         'media_id':    media_id,
         'created_on':  datetime.now(),
         'tags':        ''
     }
     reviews.insert_one(review)
     flash('Successfully Review Created.')
-    return redirect(url_for('media_bp.show_media', media_id=media_id))
+
+    return redirect(url_for('media_bp.show_media', media_id=media_id, media_type=media_type))
 
 @media_bp.route('/search', methods=['GET', 'POST'])
 def search_media():

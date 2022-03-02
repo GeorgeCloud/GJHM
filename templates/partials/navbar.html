@@ -12,23 +12,22 @@
           <li class="nav-item active">
             <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
           </li>
-  
+
           {% if 'current_user' in session %}
             <li class="nav-item">
               <a class="nav-link" href="{{ url_for('users_bp.view_user', username=session['current_user']['username']) }}">Profile<span class="sr-only">(current)</span></a>
             </li>
           {% endif %}
-  
+
           <li class="nav-item">
             <a class="nav-link" href="/media">All Media</a>
           </li>
-  
-  
-          <li class="nav-item">
+
+          <!-- <li class="nav-item">
             <a class="nav-link" href="{{ url_for('media_bp.index_reviews') }}">Reviews</a>
-          </li>
+          </li> -->
       </div>
-      
+
 
 
       <!-- <li class="nav-item dropdown" -->
@@ -54,7 +53,7 @@
         <button class="btn srch-btn my-2 my-sm-0" type="submit">Search</button>
       </form>
     </div>
-   
+
 
     <div class="col-4 ">
       <ul class="navbar-nav justify-content-end">
@@ -75,6 +74,6 @@
         {% endif %}
       </ul>
     </div>
-   
+
   </div>
 </nav>
