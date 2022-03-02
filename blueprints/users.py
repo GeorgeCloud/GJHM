@@ -35,7 +35,7 @@ def view_user(username):
     for invite in user_invitations:
         sender = users.find_one({'_id': invite['sender_id']})
         requests.append(sender)
-    
+
     return render_template('users_show.html', user=user,
                                               user_current=user_current,
                                               playlists=u_playlists,

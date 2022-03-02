@@ -59,11 +59,11 @@
           {% endif %}
         </div>
     </div>
-
+<!-- <username>/playlists/create -->
      <!-- PROFILE NAV -->
     <div class= "container">
       <div class="text-center row profile-nav">
-        <a class="nav-item col-6" href="{{ user.username }}/playlists"><strong>Playlists</strong>  </a>
+        <a class="nav-item col-6" href="{{ url_for('users_bp.new_playlist', username=user_current.username) }}"><strong>Playlists</strong>  </a>
         <a class="nav-item col-6"> <strong>Reviews</strong> </a>
       </div>
       <!-- TODO: link to routes -->
