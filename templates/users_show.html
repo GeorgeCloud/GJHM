@@ -31,7 +31,7 @@
         <!-- user information  -->
         <div class="col-9">
             <h1>{{ user.full_name.capitalize() }}</h1><br>
-            <p>@{{ user.username }}</p> <br>
+            <p>@{{ user.bio }}</p> <br>
             <p>{{ user.created_on.strftime('%b %Y') }}</p> <br> 
             <a href="{{ user.username }}/friends">{{user.friends| length}} Friends </a>
         </div>
@@ -42,22 +42,7 @@
 
         </div>
 
-        <!-- todo: user followers and following -->
-        <div>
-          {% if requested == True %}
-            <p class="btn btn-secondary">Requested</p>
-          {% elif user.username == user_current.username %}
-            <a href="{{ user.username }}/friends">{{ friends|length }} Friends</a>
-            <!-- *TODO* add following page? will have to either find current user id in all users OR
-            redo attributes with followers and following instead of friends OR
-            accepting a friend adds friend to both user's lists (so if you accept then you become their friend and they become yours) -->
-            <a href="{{ user.username }}/friend-requests">{{ user_requests|length }} Requests</a>
-          {% elif user_current._id in friends %}
-            <p class="btn btn-success">Following</p>
-          {% else %}
-            {% include 'partials/friend_request_form.html' %}
-          {% endif %}
-        </div>
+  
     </div>
 <!-- <username>/playlists/create -->
      <!-- PROFILE NAV -->
