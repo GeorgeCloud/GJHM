@@ -61,3 +61,15 @@ input {
     color: rgba(202, 210, 197, 1);
 }
 
+a {
+    color: rgba(202, 210, 197, 1);
+}
+
+a:hover{
+    text-decoration: underline;
+    color: rgba(82, 121, 111, 1);
+}
+
+.navbar-brand{
+    color: rgba(82, 121, 111, 1);
+}

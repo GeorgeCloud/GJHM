@@ -14,7 +14,7 @@
     <div class="container card">
       <div class="row p-3">
         <div class="col-3 p-3">
-          <a href="{{ url_for('media_bp.show_media', media_id=media.id) }}">
+          <a href="{{ url_for('media_bp.show_media', media_id=media.id, media_type=media.media_type) }}">
             <img style="height: 200px;" class="m-auto" src="https://www.themoviedb.org/t/p/w1280/{{media.poster_path}}" alt="movie poster">
           </a>
         </div>
@@ -30,7 +30,7 @@
 {% else %}
   <div class="container card">
     <div class="row p-3">
-      <p>New media in playlist yet. Go add some!</p>
+      <p>No media in playlist yet. Go add some!</p>
     </div>
   </div>
 {% endif %}

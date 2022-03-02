@@ -4,7 +4,7 @@
 {% block title %} {{ user.username }} | Profile {% endblock %}
 
 {% block content %}
-  <h1 class="text-center">{{ user.username }}'s Profile</h1>
+  <h1 class="text-center">{{ user.username }}</h1>
 
 <!-- user profile card -->
   <div class="container card">
@@ -12,16 +12,28 @@
     <div class="row p-3">
 
       <!-- profile picturre -->
-        <div class="col-3">
-          <img style="width: 200px;" class="m-auto" src="{{ url_for('static', filename='images/default_profile.png')}}" alt="user profile picture">
+        <div class="col-3 text-center">
+            <img  style="width: 200px;height:200px;" class="w-4 rounded-circle m-auto" src="https://espclarity.com/wp-content/uploads/2021/07/3rd-member.png" alt="user profile picture"> <br>
+            {% if requested == True %}
+                <p class="btn btn-secondary">Requested</p>
+              {% elif user.username == user_current.username %}
+                <!-- *TODO* add following page? will have to either find current user id in all users OR
+                redo attributes with followers and following instead of friends OR 
+                accepting a friend adds friend to both user's lists (so if you accept then you become their friend and they become yours) -->
+                <a href="{{ user.username }}/friend-requests" class=""><p class="m-2">Friend Requests</p></a>
+              {% elif user_current._id in friends %}
+                <p class="">Following</p>
+              {% else %}
+                {% include 'partials/friend_request_form.html' %}
+              {% endif %}
         </div>
 
         <!-- user information  -->
         <div class="col-9">
             <h1>{{ user.full_name.capitalize() }}</h1><br>
-            <!-- <p>user bio</p> <br> -->
-            <p>{{ user.email }}</p> <br>
-            <p>{{ user.created_on.strftime('%b %Y') }}</p> <br>
+            <p>@{{ user.username }}</p> <br>
+            <p>{{ user.created_on.strftime('%b %Y') }}</p> <br> 
+            <a href="{{ user.username }}/friends">{{user.friends| length}} Friends </a>
         </div>
 
         <!-- follow button -->
@@ -51,8 +63,8 @@
      <!-- PROFILE NAV -->
     <div class= "container">
       <div class="text-center row profile-nav">
-        <a class="nav-item col-6" href="{{ url_for('users_bp.new_playlist', username=user_current.username) }}"> LISTS(create new) </a>
-        <a class="nav-item col-6"> Reviews </a>
+        <a class="nav-item col-6" href="{{ url_for('users_bp.new_playlist', username=user_current.username) }}"><strong>Playlists</strong>  </a>
+        <a class="nav-item col-6"> <strong>Reviews</strong> </a>
       </div>
       <!-- TODO: link to routes -->
   </div>
@@ -62,15 +74,16 @@
   <div class="container card">
     <div class="row p-3">
 
-      <!-- user profile pic -->
+      <!-- movie pic -->
       <div class="col-3">
         <img  style="width: 100px;height:100px;" class="w-4 rounded-circle m-auto" src="{{ user.avatar_url }}" alt="100x100">
       </div>
 
       <div class="col-6">
-        <h2> {{ user.full_name.capitalize() }} </h2>
-        <!-- action: watched, review, whatever -->
-        <!-- movie: movie selected -->
+        {% for playlist in playlists %}
+          <a href="/playlists/{{ playlist._id }}"><strong>{{ playlist.title }}</strong></a>
+          <p>{{ playlist.description }}</p>
+        {% endfor %}
       </div>
 
       <div class="col-3">
