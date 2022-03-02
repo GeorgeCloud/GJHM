@@ -31,7 +31,7 @@
         <!-- user information  -->
         <div class="col-9">
             <h1>{{ user.full_name.capitalize() }}</h1><br>
-            <p>@{{ user.bio }}</p> <br>
+            <p>{{ user.bio }}</p> <br>
             <p>{{ user.created_on.strftime('%b %Y') }}</p> <br> 
             <a href="{{ user.username }}/friends">{{user.friends| length}} Friends </a>
         </div>
