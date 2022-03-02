@@ -22,7 +22,7 @@
                 accepting a friend adds friend to both user's lists (so if you accept then you become their friend and they become yours) -->
                 <a href="{{ user.username }}/friend-requests" class=""><p class="m-2">Friend Requests</p></a>
               {% elif user_current._id in friends %}
-                <p class="btn btn-success">Following</p>
+                <p class="">Following</p>
               {% else %}
                 {% include 'partials/friend_request_form.html' %}
               {% endif %}
@@ -51,8 +51,8 @@
      <!-- PROFILE NAV -->
     <div class= "container">
       <div class="text-center row profile-nav">
-        <a class="nav-item col-6" href="{{ user.username }}/playlists"> Playlists </a>
-        <a class="nav-item col-6"> Reviews </a>
+        <a class="nav-item col-6" href="{{ user.username }}/playlists"><strong>Playlists</strong>  </a>
+        <a class="nav-item col-6"> <strong>Reviews</strong> </a>
       </div>
       <!-- TODO: link to routes -->
   </div>
@@ -69,7 +69,7 @@
 
       <div class="col-6">
         {% for playlist in playlists %}
-          <a href="/playlists/{{ playlist._id }}">{{ playlist.title }}</a>
+          <a href="/playlists/{{ playlist._id }}"><strong>{{ playlist.title }}</strong></a>
           <p>{{ playlist.description }}</p>
         {% endfor %}
       </div>
